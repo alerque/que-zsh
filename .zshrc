@@ -172,17 +172,7 @@ bindkey "\e[3~" delete-char
 bindkey "\e[4~" end-of-line
 bindkey "\e[F" end-of-line
 
-mkdir -p /tmp/screen.$USER
-chmod 700 /tmp/screen.$USER
-export SCREENDIR=/tmp/screen.$USER
-
 ## COMPLETION ##
-zsh_complete_screen_list () {
-	reply=(` screen -list |
-		grep \( |
-		perl -pne "s!.*\.(\w*)\s.*!\1!g;s!\s+! !g" |
-		sort`)
-}
 zsh_complete_tmux_list () {
 	reply=(` tmux ls |
 		cut -d: -f1 |
@@ -211,7 +201,6 @@ zsh_get_initlist () {
 	reply=(--list `chkconfig --list|cut -d\  -f1`)
 }
 compctl -K zsh_get_picture_dirs pcd
-compctl -K zsh_complete_screen_list screen s sx
 compctl -K zsh_complete_tmux_list tmux t tx
 compctl -K zsh_get_initlist -k '(on off del)' chkconfig
 compctl -x 'p[1]' -K zsh_get_user_list - 'p[2], p[3]' -f -- chown
@@ -237,14 +226,6 @@ compctl -z fg
 compctl -g "*.deb *.rpm *.tgz" + -g "*(-/) .*(-/)" alien
 compctl -g "*.exe *.Exe *.EXE" + -g "*(-/) .*(-/)" wine
 
-s () {
-	print -Pn "]0;%m:$1"
-	SCREEN=$1 screen -d -RR $1
-}
-sx () {
-	print -Pn "]0;%m:$1"
-	SCREEN=$1 screen -x $1
-}
 t () {
 	print -Pn "]0;%m:$1"
 	tmux attach -d -t $1 || tmux new -s $1
@@ -267,7 +248,6 @@ tx () {
 trim() {
 	echo $1
 }
-alias sl='screen -list | grep \( | perl -pne "s!.*\.(\w*)\s.*!\1!g" | sort'
 alias tl='tmux ls | cut -d: -f1 | sort'
 alias l='ls -al --color=auto'
 alias ls='ls -BF --color=auto'
