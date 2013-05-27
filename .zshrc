@@ -1,4 +1,4 @@
-autoload -U colors && colors
+autoload -Uz colors && colors
 
 # Handle variable substitution in the PROMPT string
 setopt prompt_subst
@@ -11,31 +11,31 @@ disp () {
 	export DISPLAY=$1:0.0
 }
 
-function tetherbot() {
+tetherbot() {
 	adb forward tcp:1080 tcp:1080
 	adb forward tcp:1081 localabstract:Tunnel
 	tsocks on
 }
 
-function auth () {
+auth () {
 	ssh-agent
 	ssh-add ~/.ssh/id_rsa
 	sudo echo -n
 }
 
-function authi () {
+authi () {
 	ssh-agent | source /dev/stdin
 	ssh-add ~/.ssh/id_rsa
 	sudo echo -n
 }
 
-function lineTrim () {
+lineTrim () {
 	bottom=$2
 	let top=$bottom-$1+1
 	head -n $bottom | tail -n $top
 }
 
-myload () {
+sourceifexists () {
 	[ -f "$1" ] && source "$1"
 }
 
@@ -107,7 +107,7 @@ thumbs () {
 alias kk='killall xv'
 alias ddstatus='sudo pkill -USR1 -x dd'
 
-function cleanpath () {
+cleanpath () {
 	echo $PATH |
 		perl -pne 's/:/\n/g' |
 		awk '!x[$0]++' |
@@ -177,27 +177,27 @@ chmod 700 /tmp/screen.$USER
 export SCREENDIR=/tmp/screen.$USER
 
 ## COMPLETION ##
-function zsh_complete_screen_list () {
+zsh_complete_screen_list () {
 	reply=(` screen -list |
 		grep \( |
 		perl -pne "s!.*\.(\w*)\s.*!\1!g;s!\s+! !g" |
 		sort`)
 }
-function zsh_complete_tmux_list () {
+zsh_complete_tmux_list () {
 	reply=(` tmux ls |
 		cut -d: -f1 |
 		sort`)
 }
-function zsh_get_host_list () {
+zsh_get_host_list () {
 	reply=(`dig axfr ouraynet.com @ns1.ouraynet.com|
 		pcregrep '^[a-z]\w*\.ouraynet\.com'|
 		cut -d\. -f1`)
 }
-function zsh_get_user_list () {
+zsh_get_user_list () {
 	reply=(`cat /etc/passwd |
 		 awk -F: '{print $1 ":" $4}'`)
 }
-function zsh_get_picture_dirs () {
+zsh_get_picture_dirs () {
 	IFS='^'
 	reply=(`/bin/ls $PICTUREDIR | wc -l | read count
 		/bin/ls $PICTUREDIR |
@@ -207,7 +207,7 @@ function zsh_get_picture_dirs () {
 			let count=$count-1
 		done`)
 }
-function zsh_get_initlist () {
+zsh_get_initlist () {
 	reply=(--list `chkconfig --list|cut -d\  -f1`)
 }
 compctl -K zsh_get_picture_dirs pcd
@@ -237,23 +237,23 @@ compctl -z fg
 compctl -g "*.deb *.rpm *.tgz" + -g "*(-/) .*(-/)" alien
 compctl -g "*.exe *.Exe *.EXE" + -g "*(-/) .*(-/)" wine
 
-function s () {
+s () {
 	print -Pn "]0;%m:$1"
 	SCREEN=$1 screen -d -RR $1
 }
-function sx () {
+sx () {
 	print -Pn "]0;%m:$1"
 	SCREEN=$1 screen -x $1
 }
-function t () {
+t () {
 	print -Pn "]0;%m:$1"
 	tmux attach -d -t $1 || tmux new -s $1
 }
-function ts () {
+ts () {
 	print -Pn "]0;%m:$1"
 	tmux attach -t $1
 }
-function tx () {
+tx () {
 	print -Pn "]0;%m:$1"
 	old_sessions=$(tmux ls 2>/dev/null | egrep "^[0-9]{14}.*[0-9]+\)$" | cut -f 1 -d:)
 	for old_session_id in $old_sessions; do
@@ -264,7 +264,7 @@ function tx () {
 	tmux attach-session -t $session_id
 	tmux kill-session -t $session_id
 }
-function trim() {
+trim() {
 	echo $1
 }
 alias sl='screen -list | grep \( | perl -pne "s!.*\.(\w*)\s.*!\1!g" | sort'
@@ -296,7 +296,7 @@ alias bzrdiff="bzr diff | colordiff"
 
 alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
 
-function git () {
+git () {
 	case "$PWD"; in
 		$HOME/rpm/*)
 			command git -c user.email=$USER@pld-linux.org "$@"
@@ -307,7 +307,7 @@ function git () {
 	esac
 }
 
-function svneditlog () {
+svneditlog () {
 	rev=$1
 	if ! echo $rev | pcregrep '^[0-9]+$'; then
 		echo "Invalid usage. svneditlog REV"
@@ -317,7 +317,7 @@ function svneditlog () {
 	svn propedit -r $rev --revprop svn:log $url
 }
 
-function svnlist () {
+svnlist () {
 	if [ -z "$2" ]; then
 		case $1 in
 			clobered)
@@ -364,7 +364,7 @@ function svnlist () {
 alias ssl='svn status --ignore-externals'
 alias svndiff='svn diff -x -b | colordiff'
 
-function pharmacyadmin () {
+pharmacyadmin () {
 	host=$1
 	ssh -f -L 7447:$host:5900 pharmacy sleep 5
 	vncviewer localhost::7447 -encodings tight -bgr233 -passwd ~/.vnc/pharmacy
@@ -373,7 +373,7 @@ compctl -x 'p[1]' -k '(breakroom office1 office2 pharm2 pharm3 pharm5 workstatio
 
 compctl -x 'p[1]' -k '(missing unknown conflicted clobered)' - 'p[2]' -k '(add del revert resolved)' -- svnlist
 
-function go () {
+go () {
 	[ -d ~/projects/$1 ] && cd ~/projects/$1 && return
 	[ -d ~/projects/websites/$1 ] && cd ~/projects/websites/$1 && return
 	reply=(`/bin/ls ~/projects && /bin/ls ~/projects/websites`)
@@ -385,7 +385,7 @@ export EC2_HOME=~caleb/.ec2/ec2-api-tools
 export PATH=$PATH:$EC2_HOME/bin
 export LIBDIR=$EC2_HOME/lib
 
-source ~/.zshrc-private
+sourceifexists ~/.zshrc-private
 
 case $HOSTNAME in
 	lemur)
@@ -452,11 +452,11 @@ zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 autoload -Uz compinit
 compinit 2> /dev/null
 
-function dun_bluetooth () {
+dun_bluetooth () {
 	rfcomm connect 0 00:14:9A:5A:23:15 8 &
 }
 
-function merge_rpmnew () {
+merge_rpmnew () {
 	vim -d $1{,.rpmnew} && rm -i $1.rpmnew
 }
 
