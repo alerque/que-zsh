@@ -1,3 +1,12 @@
+autoload -U colors && colors
+
+# Handle variable substitution in the PROMPT string
+setopt prompt_subst
+
+# Enable the vcs_info module so we can make PROMPT VCS aware
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git svn bzr
+
 disp () {
 	export DISPLAY=$1:0.0
 }
@@ -31,15 +40,16 @@ myload () {
 }
 
 preexec() {
-	[ -n "$WINDOW" ] && print -Pn "k`echo $2|perl -pne 's!\s.*/! !g'|cut -c1-16`\\"
+	# Giv tmux some info on what is running in the shell before we go off and do it
+	[ -n "$TMUX_PANE" ] && print -Pn "k`echo $2|perl -pne 's!\s.*/! !g'|cut -c1-16`\\"
 }
 
 precmd () {
-	if [ -n "$WINDOW" ]; then
+	vcs_info
+	if [ -n "$TMUX_PANE" ]; then
+		# Let tmux know we're back at a prompt
 		print -Pn "k \\"
-		#print -Pn "k%m:%~\\"
-		print -P "\033[0G\033[1;33m%n$hostcolor%m\033[1;34m%~\033[0m "
-		print -Pn ']0;%m:%~'
+		#print -Pn ']0;%m:%~'
 	fi
 }
 
@@ -116,12 +126,29 @@ PATH=~/bin:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/X11
 
 [ -d /usr/local/apache-ant-1.6.5 ] && PATH=$PATH:/usr/local/apache-ant-1.6.5/bin
 
+zstyle ':vcs_info:*' stagedstr 'M' 
+zstyle ':vcs_info:*' unstagedstr 'M' 
+zstyle ':vcs_info:*' check-for-changes true
+#zstyle ':vcs_info:*' actionformats '%F{5}{%F{2}%b%F{3}|%F{1}%a%F{5}}%f '
+zstyle ':vcs_info:*' formats '%F{5}%s{%F{green}%b%F{5}}%F{yellow}%a%F{green}%c%F{red}%u%F{red}%m%f'
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
++vi-git-untracked() {
+  if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+    git status --porcelain | grep '??' &> /dev/null ; then
+    hook_com[unstaged]+='%F{1}?%f'
+  fi  
+}
+
+local lastexitcode='%(?,%F{green}✓,%F{red}✗)%f'
+#TODO: wrap colors in %{%}? to avoid cursor position issues?
+PROMPT='$lastexitcode %F{5}[%F{red}%n%F{5}@%F{$hostcolor}%m%F{5}] %F{green}%~ ${vcs_info_msg_0_} %F{black}(%!)
+%f%# '
+RPROMPT='%F{black}%* '
 #cleanpath
-[ -n "$WINDOW" ] && PS1='' || PS1='%n@%m%# '
 PICTUREDIR=/pictures
 THUMBDIR=/pictures/thumbs
 
-export HISTSIZE HISTFILE SAVEHIST PS1 EDITOR VISUAL PAGER PATH
+export HISTSIZE HISTFILE SAVEHIST PROMPT RPROMPT EDITOR VISUAL PAGER PATH
 
 umask 022
 
@@ -360,7 +387,7 @@ export EC2_HOME=~caleb/.ec2/ec2-api-tools
 export PATH=$PATH:$EC2_HOME/bin
 export LIBDIR=$EC2_HOME/lib
 
-source .zshrc-private
+source ~/.zshrc-private
 
 case $HOSTNAME in
 	lemur)
@@ -413,20 +440,14 @@ case $HOSTNAME in
 		;;
 esac
 
-if which color > /dev/null; then
-	case $HOST in
-		camelion) c=magenta ;;
-		ns*|*server|mysql|sub|mail|*spam) c=red ;;
-		boa|kartal|goose|gander|beaver|chipmunk) c=blue;;
-		lemur|ibex|pars|panther|viper|giraffe) c=cyan ;;
-		*) c=yellow ;;
-	esac
-	hostcolor=`color $c`
-	off=`color off`
-else
-	hostcolor="[0m[35m"
-	off="[0m"
-fi
+# black red green yellow blue magenta cyan white
+case $HOSTNAME in
+	camelion) local hostcolor=magenta ;;
+	ns*|*server|mysql|sub|mail|*spam) local hostcolor=red ;;
+	ferret|boa|kartal|goose|gander|beaver|chipmunk) local hostcolor=blue;;
+	leylek|lemur|ibex|pars|panther|viper|giraffe) local hostcolor=cyan ;;
+	*) local hostcolor=yellow ;;
+esac
 
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 
@@ -441,4 +462,4 @@ function merge_rpmnew () {
 	vim -d $1{,.rpmnew} && rm -i $1.rpmnew
 }
 
-~caleb/bin/knockknock.zsh
+#~caleb/bin/knockknock.zsh
