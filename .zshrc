@@ -1,21 +1,14 @@
 autoload -Uz colors && colors
 
+autoload -Uz compinit && compinit
+zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
+
 # Handle variable substitution in the PROMPT string
 setopt prompt_subst
 
 # Enable the vcs_info module so we can make PROMPT VCS aware
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn bzr
-
-disp () {
-	export DISPLAY=$1:0.0
-}
-
-tetherbot() {
-	adb forward tcp:1080 tcp:1080
-	adb forward tcp:1081 localabstract:Tunnel
-	tsocks on
-}
 
 auth () {
 	ssh-agent
@@ -39,20 +32,6 @@ sourceifexists () {
 	[ -f "$1" ] && source "$1"
 }
 
-preexec() {
-	# Giv tmux some info on what is running in the shell before we go off and do it
-	[ -n "$TMUX_PANE" ] && print -Pn "k`echo $2|perl -pne 's!\s.*/! !g'|cut -c1-16`\\"
-}
-
-precmd () {
-	vcs_info
-	if [ -n "$TMUX_PANE" ]; then
-		# Let tmux know we're back at a prompt
-		print -Pn "k \\"
-		#print -Pn ']0;%m:%~'
-	fi
-}
-
 pcd () {
 	d1="$PICTUREDIR/$1"
 	d2="$PICTUREDIR/`echo $1 | perl -pne 's/^\d* //g'`"
@@ -70,10 +49,6 @@ pcd () {
 			cd $PICTUREDIR/$dir
 		fi
 	fi
-}
-
-pprint () {
-	cat $1 | fmt -s -u -w 75 | lpr
 }
 
 thumbs () {
@@ -124,6 +99,21 @@ PAGER='less -r'
 PATH=~/bin:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/X11R6/bin:.:/home/users/caleb/projects/android/sdk/tools
 
 [ -d /usr/local/apache-ant-1.6.5 ] && PATH=$PATH:/usr/local/apache-ant-1.6.5/bin
+
+preexec() {
+	# Giv tmux some info on what is running in the shell before we go off and do it
+	[ -n "$TMUX_PANE" ] && print -Pn "k`echo $2|perl -pne 's!\s.*/! !g'|cut -c1-16`\\"
+}
+
+precmd () {
+	vcs_info
+	if [ -n "$TMUX_PANE" ]; then
+		# Let tmux know we're back at a prompt
+		print -Pn "k \\"
+		#print -Pn ']0;%m:%~'
+	fi
+}
+
 
 zstyle ':vcs_info:*' stagedstr 'M' 
 zstyle ':vcs_info:*' unstagedstr 'M' 
@@ -230,10 +220,12 @@ t () {
 	print -Pn "]0;%m:$1"
 	tmux attach -d -t $1 || tmux new -s $1
 }
+
 ts () {
 	print -Pn "]0;%m:$1"
 	tmux attach -t $1
 }
+
 tx () {
 	print -Pn "]0;%m:$1"
 	old_sessions=$(tmux ls 2>/dev/null | egrep "^[0-9]{14}.*[0-9]+\)$" | cut -f 1 -d:)
@@ -245,9 +237,11 @@ tx () {
 	tmux attach-session -t $session_id
 	tmux kill-session -t $session_id
 }
+
 trim() {
 	echo $1
 }
+
 alias tl='tmux ls | cut -d: -f1 | sort'
 alias l='ls -al --color=auto'
 alias ls='ls -BF --color=auto'
@@ -259,13 +253,8 @@ if [ -f /etc/pld-release ]; then
 	# Ubuntu's which is too dumb for this stuff
 	alias which='alias | /usr/bin/which --read-alias --show-dot --show-tilde'
 fi
-alias su='su'
-alias br='SCREEN=$SCREEN sudo -s'
-alias rm='rm -i'
+alias br='sudo -s'
 alias less='less -X -M -r'
-alias lad='{find . -type d -maxdepth 1|sort -fn|xargs ls -aldF --color;find . -type f -maxdepth 1 |sort -fn|xargs ls -alF --color}|sed "s!./!!g"|grep -v "~"'
-alias lpr='lpr -P hpc5m@server'
-#alias compupic='LD_LIBRARY_PATH=/usr/local/compupic compupic'
 alias mkiso='mkisofs -J -r -joliet-long -o'
 alias fit="cut -b0-$(($COLUMNS-1))"
 alias uh="sudo /usr/local/bin/triggers/update_host.zsh"
@@ -340,6 +329,7 @@ svnlist () {
 		esac
 	fi
 }
+compctl -x 'p[1]' -k '(missing unknown conflicted clobered)' - 'p[2]' -k '(add del revert resolved)' -- svnlist
 
 alias ssl='svn status --ignore-externals'
 alias svndiff='svn diff -x -b | colordiff'
@@ -350,8 +340,6 @@ pharmacyadmin () {
 	vncviewer localhost::7447 -encodings tight -bgr233 -passwd ~/.vnc/pharmacy
 }
 compctl -x 'p[1]' -k '(breakroom office1 office2 pharm2 pharm3 pharm5 workstation et et2 unknown pos2 pos3 posserver cl)' -- pharmacyadmin
-
-compctl -x 'p[1]' -k '(missing unknown conflicted clobered)' - 'p[2]' -k '(add del revert resolved)' -- svnlist
 
 go () {
 	[ -d ~/projects/$1 ] && cd ~/projects/$1 && return
@@ -368,6 +356,8 @@ export LIBDIR=$EC2_HOME/lib
 sourceifexists ~/.zshrc-private
 
 case $HOSTNAME in
+	leylek)
+		;;
 	lemur)
 		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
 		alias soundceptor='pacat -r -d alsa_output.pci-0000_00_14.2.analog-surround-50.monitor | sox -t raw -r 44100 -s -L -b 16 -c 2 - "output.wav"'
@@ -376,7 +366,7 @@ case $HOSTNAME in
 		}
 		;;
 	ibex)
-		#alias mplayer="mplayer -monitoraspect 1"
+		alias mplayer="mplayer -monitoraspect 1"
 		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
 		alias dvdburn='dvdrecord -v dev=/dev/sr0 driveropts=burnfree'
 		function projector () {
@@ -398,7 +388,6 @@ case $HOSTNAME in
 		;;
 	panther)
 		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
-		#alias burn='cdrecord -v dev=2,0,0 driveropts=burnfree'
 		alias SL=~/downloads/secondlife/SecondLife_i686_1_18_3_5/secondlife
 		;;
 	viper)
@@ -414,7 +403,6 @@ case $HOSTNAME in
 		alias burn='cdrecord -v dev=/dev/hdd'
 		;;
 	*)
-		alias burn='cdrecord -v dev=/dev/cdrw'
 		;;
 esac
 
@@ -426,15 +414,6 @@ case $HOSTNAME in
 	leylek|lemur|ibex|pars|panther|viper|giraffe) local hostcolor=cyan ;;
 	*) local hostcolor=yellow ;;
 esac
-
-zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
-
-autoload -Uz compinit
-compinit 2> /dev/null
-
-dun_bluetooth () {
-	rfcomm connect 0 00:14:9A:5A:23:15 8 &
-}
 
 merge_rpmnew () {
 	vim -d $1{,.rpmnew} && rm -i $1.rpmnew
