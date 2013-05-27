@@ -141,7 +141,7 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 
 local lastexitcode='%(?,%F{green}✓,%F{red}✗)%f'
 #TODO: wrap colors in %{%}? to avoid cursor position issues?
-PROMPT='$lastexitcode %F{5}[%F{red}%n%F{5}@%F{$hostcolor}%m%F{5}] %F{green}%~ ${vcs_info_msg_0_} %F{black}(%!)
+PROMPT='$lastexitcode %F{5}[%(0#,%F{red}%n,%F{green}%n)%F{5}@%F{$hostcolor}%m%F{5}] %F{green}%~ ${vcs_info_msg_0_} %F{black}(%!)
 %f%# '
 RPROMPT='%F{black}%* '
 #cleanpath
