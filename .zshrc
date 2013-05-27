@@ -129,8 +129,8 @@ PATH=~/bin:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/X11
 zstyle ':vcs_info:*' stagedstr 'M' 
 zstyle ':vcs_info:*' unstagedstr 'M' 
 zstyle ':vcs_info:*' check-for-changes true
-#zstyle ':vcs_info:*' actionformats '%F{5}{%F{2}%b%F{3}|%F{1}%a%F{5}}%f '
-zstyle ':vcs_info:*' formats '%F{5}%s{%F{green}%b%F{5}}%F{yellow}%a%F{green}%c%F{red}%u%F{red}%m%f'
+zstyle ':vcs_info:*' formats '%F{5}%s{%F{green}%b%F{5}} %F{yellow}%a%F{green}%c%F{red}%u%F{red}%m%f'
+zstyle ':vcs_info:*' actionformats '%F{5}%s{%F{green}%b%F{5}}-%a %F{yellow}%a%F{green}%c%F{red}%u%F{red}%m%f'
 zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 +vi-git-untracked() {
   if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
@@ -141,7 +141,7 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 
 local lastexitcode='%(?,%F{green}✓,%F{red}✗)%f'
 #TODO: wrap colors in %{%}? to avoid cursor position issues?
-PROMPT='$lastexitcode %F{5}[%(0#,%F{red}%n,%F{blue}%n)%F{5}@%F{$hostcolor}%m%F{5}] %F{green}%~ ${vcs_info_msg_0_} %F{black}(%!)
+PROMPT='$lastexitcode %F{5}[%(0#,%F{red}%n,%F{blue}%n)%F{5}@%F{$hostcolor}%m%F{5}] %F{green}%~ %F{yellow}$VCSH_REPO_NAME ${vcs_info_msg_0_} %F{black}(%!)
 %f%# '
 RPROMPT='%F{black}%*'
 #cleanpath
