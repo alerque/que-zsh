@@ -110,8 +110,7 @@ alias ddstatus='sudo pkill -USR1 -x dd'
 function cleanpath () {
 	echo $PATH |
 		perl -pne 's/:/\n/g' |
-		sort |
-		uniq |
+		awk '!x[$0]++' |
 		perl -pne 's/\n/:/g' | read PATH
 	export PATH
 }
@@ -140,11 +139,10 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 }
 
 local lastexitcode='%(?,%F{green}✓,%F{red}✗)%f'
-#TODO: wrap colors in %{%}? to avoid cursor position issues?
 PROMPT='$lastexitcode %F{5}[%(0#,%F{red}%n,%F{blue}%n)%F{5}@%F{$hostcolor}%m%F{5}] %F{green}%~ %F{yellow}$VCSH_REPO_NAME ${vcs_info_msg_0_} %F{black}(%!)
 %f%# '
 RPROMPT='%F{black}%*'
-#cleanpath
+cleanpath
 PICTUREDIR=/pictures
 THUMBDIR=/pictures/thumbs
 
