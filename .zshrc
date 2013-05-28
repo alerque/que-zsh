@@ -418,11 +418,11 @@ esac
 
 # black red green yellow blue magenta cyan white
 case $HOSTNAME in
-	camelion) local hostcolor=magenta ;;
+	camelion) local hostcolor=yellow ;;
 	ns*|*server|mysql|sub|mail|*spam) local hostcolor=red ;;
 	ferret|boa|kartal|goose|gander|beaver|chipmunk) local hostcolor=blue;;
 	leylek|lemur|ibex|pars|panther|viper|giraffe) local hostcolor=cyan ;;
-	*) local hostcolor=yellow ;;
+	*) local hostcolor=magenta ;;
 esac
 
 merge_rpmnew () {
