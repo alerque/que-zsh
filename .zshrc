@@ -265,6 +265,16 @@ alias bzrdiff="bzr diff | colordiff"
 
 alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
 
+vcsh() {
+	case $1; in
+		list-untracked)
+			command ls | grep -vxf <(vcsh list-tracked)
+			;;
+		*)
+			command vcsh "$@"
+			;;
+	esac
+}
 git () {
 	case "$PWD"; in
 		$HOME/rpm/*)
