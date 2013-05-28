@@ -96,7 +96,7 @@ SAVEHIST=50000
 EDITOR=vim
 VISUAL=vim
 PAGER='less -r'
-PATH=~/bin:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/X11R6/bin:.:/home/users/caleb/projects/android/sdk/tools
+PATH=$HOME/bin:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/X11R6/bin:.:/home/users/caleb/projects/android/sdk/tools
 
 [ -d /usr/local/apache-ant-1.6.5 ] && PATH=$PATH:/usr/local/apache-ant-1.6.5/bin
 
