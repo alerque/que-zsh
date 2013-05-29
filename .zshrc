@@ -82,23 +82,15 @@ thumbs () {
 alias kk='killall xv'
 alias ddstatus='sudo pkill -USR1 -x dd'
 
-cleanpath () {
-	echo $PATH |
-		perl -pne 's/:/\n/g' |
-		awk '!x[$0]++' |
-		perl -pne 's/\n/:/g' | read PATH
-	export PATH
-}
-	
 unset MAIL MAILCHECK MAILPATH
 HISTSIZE=50000
 SAVEHIST=50000
 EDITOR=vim
 VISUAL=vim
 PAGER='less -r'
-PATH=$HOME/bin:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/X11R6/bin:.:/home/users/caleb/projects/android/sdk/tools
 
-[ -d /usr/local/apache-ant-1.6.5 ] && PATH=$PATH:/usr/local/apache-ant-1.6.5/bin
+[ -d ~/projects/android/sdk/tools ] && path=($path ~/projects/android/sdk/tools)
+[ -d /usr/local/apache-ant-1.6.5 ] && path=($path /usr/local/apache-ant-1.6.5/bin)
 
 preexec() {
 	# Giv tmux some info on what is running in the shell before we go off and do it
@@ -132,11 +124,10 @@ local lastexitcode='%(?,%F{green}✓,%F{red}✗)%f'
 PROMPT='$lastexitcode %F{5}[%(0#,%F{red}%n,%F{blue}%n)%F{5}@%F{$hostcolor}%m%F{5}] %F{green}%~ %F{yellow}$VCSH_REPO_NAME ${vcs_info_msg_0_} %F{black}(%!)
 %f%# '
 RPROMPT='%F{black}%*'
-cleanpath
 PICTUREDIR=/pictures
 THUMBDIR=/pictures/thumbs
 
-export HISTSIZE HISTFILE SAVEHIST PROMPT RPROMPT EDITOR VISUAL PAGER PATH
+export HISTSIZE HISTFILE SAVEHIST PROMPT RPROMPT EDITOR VISUAL PAGER
 
 umask 022
 
@@ -263,7 +254,7 @@ alias cvsdiff="cvs diff -u | colordiff"
 alias gitdiff="git diff | colordiff"
 alias bzrdiff="bzr diff | colordiff"
 
-alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOST"
+alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
 
 vcsh() {
 	case $1; in
@@ -360,12 +351,12 @@ go () {
 compctl -K go go
 
 export EC2_HOME=~caleb/.ec2/ec2-api-tools
-export PATH=$PATH:$EC2_HOME/bin
 export LIBDIR=$EC2_HOME/lib
+path=($path $EC2_HOME/bin)
 
 sourceifexists ~/.zshrc-private
 
-case $HOST in
+case $HOSTNAME in
 	leylek)
 		;;
 	lemur)
@@ -417,7 +408,7 @@ case $HOST in
 esac
 
 # black red green yellow blue magenta cyan white
-case $HOST in
+case $HOSTNAME in
 	camelion) local hostcolor=yellow ;;
 	ns*|*server|mysql|sub|mail|*spam) local hostcolor=red ;;
 	ferret|boa|kartal|goose|gander|beaver|chipmunk) local hostcolor=blue;;
