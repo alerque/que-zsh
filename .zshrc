@@ -2,6 +2,7 @@ autoload -Uz colors && colors
 
 autoload -Uz compinit && compinit
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
+zstyle ':completion:*' menu select
 
 
 # Enable the vcs_info module so we can make PROMPT VCS aware
@@ -135,6 +136,7 @@ umask 022
 #setopt interactivecomment
 
 setopt autocd
+setopt completealiases
 setopt extendedglob
 setopt histignoredups
 setopt multios
