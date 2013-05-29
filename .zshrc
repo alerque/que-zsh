@@ -3,8 +3,6 @@ autoload -Uz colors && colors
 autoload -Uz compinit && compinit
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 
-# Handle variable substitution in the PROMPT string
-setopt prompt_subst
 
 # Enable the vcs_info module so we can make PROMPT VCS aware
 autoload -Uz vcs_info
@@ -134,12 +132,15 @@ umask 022
 #setopt NOTIFY
 #setopt HIST_IGNORE_SPACE
 #setopt HIST_IGNORE_DUPS
-setopt autocd
-setopt pushdignoredups
-setopt histignoredups
 #setopt interactivecomment
 
-setopt -o extended_glob
+setopt autocd
+setopt extendedglob
+setopt histignoredups
+setopt multios
+setopt prompt_subst
+setopt pushdignoredups
+
 setopt nobeep
 
 #no console beep
