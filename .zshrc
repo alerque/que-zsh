@@ -263,7 +263,7 @@ alias cvsdiff="cvs diff -u | colordiff"
 alias gitdiff="git diff | colordiff"
 alias bzrdiff="bzr diff | colordiff"
 
-alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
+alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOST"
 
 vcsh() {
 	case $1; in
@@ -365,7 +365,7 @@ export LIBDIR=$EC2_HOME/lib
 
 sourceifexists ~/.zshrc-private
 
-case $HOSTNAME in
+case $HOST in
 	leylek)
 		;;
 	lemur)
@@ -417,7 +417,7 @@ case $HOSTNAME in
 esac
 
 # black red green yellow blue magenta cyan white
-case $HOSTNAME in
+case $HOST in
 	camelion) local hostcolor=yellow ;;
 	ns*|*server|mysql|sub|mail|*spam) local hostcolor=red ;;
 	ferret|boa|kartal|goose|gander|beaver|chipmunk) local hostcolor=blue;;
