@@ -1,5 +1,8 @@
 autoload -Uz colors && colors
 
+autoload -Uz incremental-complete-word
+zle -N incremental-complete-word
+
 autoload -Uz compinit && compinit
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 zstyle ':completion:*' menu select
@@ -148,9 +151,10 @@ setopt nobeep
 echo -en "[11;0]"
 
 bindkey -v
-bindkey "^k" history-search-backward
-bindkey "^j" history-search-forward
-bindkey "^i" history-incremental-search-backward
+bindkey "^K" history-search-backward
+bindkey "^J" history-search-forward
+bindkey "^F" history-incremental-search-backward
+bindkey "^R" transpose-words
 
 # Key binding method copied from https://wiki.archlinux.org/index.php/Zsh#Key_bindings
 typeset -A key
