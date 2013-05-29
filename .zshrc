@@ -140,6 +140,7 @@ setopt histignoredups
 #setopt interactivecomment
 
 setopt -o extended_glob
+setopt nobeep
 
 #no console beep
 echo -en "[11;0]"
