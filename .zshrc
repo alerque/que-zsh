@@ -462,4 +462,18 @@ merge_rpmnew () {
 	vim -d $1{,.rpmnew} && rm -i $1.rpmnew
 }
 
+
+# http://unix.stackexchange.com/questions/10825/remember-a-half-typed-command-while-i-check-something/11982#11982 
+fancy-ctrl-z () {
+  emulate -LR zsh
+  if [[ $#BUFFER -eq 0 ]]; then
+    bg
+    zle redisplay
+  else
+    zle push-input
+  fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
+
 #~caleb/bin/knockknock.zsh
