@@ -7,6 +7,8 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 zstyle ':completion:*' menu select
 
+autoload -z edit-command-line
+zle -N edit-command-line
 
 # Enable the vcs_info module so we can make PROMPT VCS aware
 autoload -Uz vcs_info
@@ -155,6 +157,7 @@ bindkey "^K" history-search-backward
 bindkey "^J" history-search-forward
 bindkey "^F" history-incremental-search-backward
 bindkey "^R" transpose-words
+bindkey "^E" edit-command-line
 
 # Key binding method copied from https://wiki.archlinux.org/index.php/Zsh#Key_bindings
 typeset -A key
