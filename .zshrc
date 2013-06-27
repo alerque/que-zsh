@@ -159,6 +159,13 @@ bindkey "^F" history-incremental-search-backward
 bindkey "^R" transpose-words
 bindkey "^E" edit-command-line
 
+kill-last-word () {
+	zle backward-word
+	zle kill-word
+}
+zle -N kill-last-word
+bindkey "^L" kill-last-word
+
 # Key binding method copied from https://wiki.archlinux.org/index.php/Zsh#Key_bindings
 typeset -A key
 
