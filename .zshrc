@@ -285,6 +285,15 @@ trim() {
 	echo $1
 }
 
+if [ -f /etc/pld-release ]; then
+	# Ubuntu's which is too dumb for this stuff
+	alias which='alias | command which --read-alias --show-dot --show-tilde'
+fi
+
+# Typing convenience aliases
+alias h="vcsh"
+compdef h="vcsh"
+
 alias tl='tmux ls | cut -d: -f1 | sort'
 alias l='ls -al --color=auto'
 alias ls='ls -BF --color=auto'
@@ -292,15 +301,15 @@ alias ll='ls -l --color=auto'
 alias la='ls -a --color=auto'
 alias lv='ls -al --color=auto|less'
 alias ..='cd ..'
-if [ -f /etc/pld-release ]; then
-	# Ubuntu's which is too dumb for this stuff
-	alias which='alias | /usr/bin/which --read-alias --show-dot --show-tilde'
-fi
 alias br='sudo -s'
+alias uh="sudo /usr/local/bin/triggers/update_host.zsh"
+
+# Default argument aliases
 alias less='less -X -M -r'
 alias mkiso='mkisofs -J -r -joliet-long -o'
+
+# Convenience functions
 alias fit="cut -b0-$(($COLUMNS-1))"
-alias uh="sudo /usr/local/bin/triggers/update_host.zsh"
 alias svndiff="svn diff -x -b | colordiff"
 alias cvsdiff="cvs diff -u | colordiff"
 alias gitdiff="git diff | colordiff"
@@ -318,6 +327,7 @@ vcsh() {
 			;;
 	esac
 }
+
 git () {
 	case "$PWD"; in
 		$HOME/rpm/*)
@@ -383,9 +393,6 @@ svnlist () {
 	fi
 }
 compctl -x 'p[1]' -k '(missing unknown conflicted clobered)' - 'p[2]' -k '(add del revert resolved)' -- svnlist
-
-alias ssl='svn status --ignore-externals'
-alias svndiff='svn diff -x -b | colordiff'
 
 pharmacyadmin () {
 	host=$1
