@@ -85,6 +85,7 @@ thumbs () {
 }
 alias kk='killall xv'
 alias ddstatus='sudo pkill -USR1 -x dd'
+alias sc='sudo systemctl'
 
 unset MAIL MAILCHECK MAILPATH
 HISTSIZE=50000
