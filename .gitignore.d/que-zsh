@@ -1,2 +1,5 @@
 *
-!.zshrc
+!/.gitignore.d
+!/.gitignore.d/que-zsh
+!/.zshenv
+!/.zshrc
