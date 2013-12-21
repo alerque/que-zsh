@@ -86,7 +86,7 @@ thumbs () {
 alias kk='killall xv'
 alias ddstatus='sudo pkill -USR1 -x dd'
 alias sc='sudo systemctl'
-compder sc='systemctl'
+compdef sc='systemctl'
 
 unset MAIL MAILCHECK MAILPATH
 HISTSIZE=50000
@@ -407,8 +407,7 @@ compctl -x 'p[1]' -k '(breakroom office1 office2 pharm2 pharm3 pharm5 workstatio
 
 go () {
 	[ -d ~/projects/$1 ] && cd ~/projects/$1 && return
-	[ -d ~/projects/websites/$1 ] && cd ~/projects/websites/$1 && return
-	reply=(`/bin/ls ~/projects && /bin/ls ~/projects/websites`)
+	reply=(`/bin/ls ~/projects`)
 }
 
 compctl -K go go
