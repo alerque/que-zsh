@@ -464,6 +464,7 @@ case $HOSTNAME in
 		alias burn='cdrecord -v dev=/dev/hdd'
 		;;
 	*)
+		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
 		;;
 esac
 
