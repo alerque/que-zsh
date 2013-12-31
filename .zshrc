@@ -86,6 +86,7 @@ thumbs () {
 alias kk='killall xv'
 alias ddstatus='sudo pkill -USR1 -x dd'
 alias sc='sudo systemctl'
+compdef sc='systemctl'
 
 unset MAIL MAILCHECK MAILPATH
 HISTSIZE=50000
@@ -96,9 +97,11 @@ PAGER='less -r'
 
 [ -d ~/projects/android/sdk/tools ] && path=($path ~/projects/android/sdk/tools)
 [ -d /usr/local/apache-ant-1.6.5 ] && path=($path /usr/local/apache-ant-1.6.5/bin)
+[ -d /opt/android-sdk/platform-tools ] && path=($path /opt/android-sdk/platform-tools)
+[ -d /opt/android-sdk/tools ] && path=($path /opt/android-sdk/tools)
 
 preexec() {
-	# Giv tmux some info on what is running in the shell before we go off and do it
+	# Give tmux some info on what is running in the shell before we go off and do it
 	[ -n "$TMUX_PANE" ] && print -Pn "k`echo $2|perl -pne 's!\s.*/! !g'|cut -c1-16`\\"
 }
 
@@ -404,8 +407,7 @@ compctl -x 'p[1]' -k '(breakroom office1 office2 pharm2 pharm3 pharm5 workstatio
 
 go () {
 	[ -d ~/projects/$1 ] && cd ~/projects/$1 && return
-	[ -d ~/projects/websites/$1 ] && cd ~/projects/websites/$1 && return
-	reply=(`/bin/ls ~/projects && /bin/ls ~/projects/websites`)
+	reply=(`/bin/ls ~/projects`)
 }
 
 compctl -K go go
@@ -467,6 +469,8 @@ case $HOSTNAME in
 		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
 		;;
 esac
+
+compdef burn='cdrecord'
 
 # black red green yellow blue magenta cyan white
 case $HOSTNAME in
