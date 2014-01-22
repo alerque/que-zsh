@@ -313,7 +313,7 @@ alias less='less -X -M -r'
 alias mkiso='mkisofs -J -r -joliet-long -o'
 
 # Convenience functions
-alias fit="cut -b0-$(($COLUMNS-1))"
+alias fit="cut -b1-$COLUMNS"
 alias svndiff="svn diff -x -b | colordiff"
 alias cvsdiff="cvs diff -u | colordiff"
 alias gitdiff="git diff | colordiff"
