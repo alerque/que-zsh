@@ -490,7 +490,7 @@ bindkey '^Z' fancy-ctrl-z
 
 vicmd-accept() { prev_mode=vicmd; zle .accept-line }
 viins-accept() { prev_mode=viins; zle .accept-line }
-zle-line-init() { zle -K ${prev_mode:-vicmd} }
+zle-line-init() { zle -K ${prev_mode:-viins} }
 zle -N viins-accept
 zle -N vicmd-accept
 zle -N zle-line-init
