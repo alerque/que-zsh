@@ -424,49 +424,17 @@ case $HOSTNAME in
 	lemur)
 		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
 		alias soundceptor='pacat -r -d alsa_output.pci-0000_00_14.2.analog-surround-50.monitor | sox -t raw -r 44100 -s -L -b 16 -c 2 - "output.wav"'
-		function drivetemps () {
-			for i in a b c d e; do sudo smartctl --all /dev/sd$i | grep Temperature_Celsius; done
-		}
-		;;
-	ibex)
-		alias mplayer="mplayer -monitoraspect 1"
-		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
-		alias dvdburn='dvdrecord -v dev=/dev/sr0 driveropts=burnfree'
-		function projector () {
-			case $1 in
-				on)
-					xrandr --auto
-					xrandr --output VGA1 --right-of LVDS
-					;;
-				off)
-					xrandr --output VGA1 --off
-					;;
-			esac
-		}
 		;;
 	pars)
 		alias mplayer="mplayer -monitoraspect 3/4"
 		alias burn='sudo cdrecord -v dev=/dev/hda driveropts=burnfree'
 		alias dvdburn='dvdrecord -v dev=/dev/hda driveropts=burnfree'
 		;;
-	panther)
-		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
-		alias SL=~/downloads/secondlife/SecondLife_i686_1_18_3_5/secondlife
-		;;
-	viper)
-		alias burn='cdrecord -v dev=/dev/hdc driveropts=burnfree'
-		alias dvdburn='dvdrecord -v dev=/dev/hdc driveropts=burnfree'
-		;;
-	aspen)
-		alias burn='cdrecord -v dev=/dev/hdd'
-		alias copy_audio_cd='cdrdao copy --source-device /dev/hdc --device /dev/hdd --buffers 64'
-		alias copy_data_cd='cat /dev/hdc > /tmp/copy.iso; burn /tmp/copy.iso'
-		;;
-	giraffe)
-		alias burn='cdrecord -v dev=/dev/hdd'
-		;;
 	*)
 		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
+		function drivetemps () {
+			for i in a b c d e; do sudo smartctl --all /dev/sd$i | grep Temperature_Celsius; done
+		}
 		;;
 esac
 
@@ -474,10 +442,10 @@ compdef burn='cdrecord'
 
 # black red green yellow blue magenta cyan white
 case $HOSTNAME in
-	camelion) local hostcolor=yellow ;;
+camelion|iguana|basilisk) local hostcolor=yellow ;;
 	ns*|*server|mysql|sub|mail|*spam) local hostcolor=red ;;
-	ferret|boa|kartal|goose|gander|beaver|chipmunk) local hostcolor=blue;;
-	leylek|lemur|ibex|pars|panther|viper|giraffe) local hostcolor=cyan ;;
+	goose|gander) local hostcolor=blue;;
+	leylek|lemur|pars|jaguar|karabatak|shrimp|lobster|oyster|hare) local hostcolor=cyan ;;
 	*) local hostcolor=magenta ;;
 esac
 
@@ -496,6 +464,7 @@ fancy-ctrl-z () {
     zle push-input
   fi
 }
+
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
