@@ -487,15 +487,10 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-
-vicmd-accept() { prev_mode=vicmd; zle .accept-line }
-viins-accept() { prev_mode=viins; zle .accept-line }
+accept-line() { prev_mode=$KEYMAP; zle .accept-line }
 zle-line-init() { zle -K ${prev_mode:-viins} }
-zle -N viins-accept
-zle -N vicmd-accept
+zle -N accept-line
 zle -N zle-line-init
-bindkey -M viins \\r viins-accept
-bindkey -M vicmd \\r vicmd-accept
 
 export KEYTIMEOUT=1
 
