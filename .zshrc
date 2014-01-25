@@ -474,8 +474,8 @@ zle-line-init() { zle -K vicmd; }
 zle -N zle-line-init
 export KEYTIMEOUT=1
 
-vim_ins_mode="[INS]"
-vim_cmd_mode="[CMD]"
+vim_ins_mode="%F{green}[INS]"
+vim_cmd_mode="%F{white}[CMD]"
 vim_mode=$vim_ins_mode
 
 function zle-keymap-select {
@@ -489,6 +489,6 @@ function zle-line-finish {
 }
 zle -N zle-line-finish
 
-RPROMPT='%F{black}%* %F{white}${vim_mode}'
+RPROMPT='%F{black}%* ${vim_mode}'
 
 #~caleb/bin/knockknock.zsh
