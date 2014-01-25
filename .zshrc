@@ -487,8 +487,16 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-zle-line-init() { zle -K vicmd; }
+
+vicmd-accept() { prev_mode=vicmd; zle .accept-line }
+viins-accept() { prev_mode=viins; zle .accept-line }
+zle-line-init() { zle -K ${prev_mode:-vicmd} }
+zle -N viins-accept
+zle -N vicmd-accept
 zle -N zle-line-init
+bindkey -M viins \\r viins-accept
+bindkey -M vicmd \\r vicmd-accept
+
 export KEYTIMEOUT=1
 
 #~caleb/bin/knockknock.zsh
