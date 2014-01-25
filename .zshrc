@@ -114,6 +114,23 @@ precmd () {
 	fi
 }
 
+vim_ins_mode="%F{green}"
+vim_cmd_mode="%F{white}"
+vim_mode=$vim_ins_mode
+
+function zle-keymap-select {
+	vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
+	zle reset-prompt
+}
+zle -N zle-keymap-select
+
+function zle-line-finish {
+	vim_mode=$vim_ins_mode
+}
+zle -N zle-line-finish
+
+#RPROMPT='%F{black}%* ${vim_mode}'
+
 
 zstyle ':vcs_info:*' stagedstr 'M' 
 zstyle ':vcs_info:*' unstagedstr 'M' 
@@ -130,7 +147,7 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 
 local lastexitcode='%(?,%F{green}✓,%F{red}✗)%f'
 PROMPT='$lastexitcode %F{5}[%(0#,%F{red}%n,%F{blue}%n)%F{5}@%F{$hostcolor}%m%F{5}] %F{green}%~ %F{yellow}$VCSH_REPO_NAME ${vcs_info_msg_0_} %F{black}(%!)
-%f%# '
+${vim_mode}%# %f'
 RPROMPT='%F{black}%*'
 PICTUREDIR=/pictures
 THUMBDIR=/pictures/thumbs
@@ -473,22 +490,5 @@ bindkey '^Z' fancy-ctrl-z
 zle-line-init() { zle -K vicmd; }
 zle -N zle-line-init
 export KEYTIMEOUT=1
-
-vim_ins_mode="%F{green}[INS]"
-vim_cmd_mode="%F{white}[CMD]"
-vim_mode=$vim_ins_mode
-
-function zle-keymap-select {
-	vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
-	zle reset-prompt
-}
-zle -N zle-keymap-select
-
-function zle-line-finish {
-	vim_mode=$vim_ins_mode
-}
-zle -N zle-line-finish
-
-RPROMPT='%F{black}%* ${vim_mode}'
 
 #~caleb/bin/knockknock.zsh
