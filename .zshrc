@@ -412,9 +412,11 @@ go () {
 
 compctl -K go go
 
-export EC2_HOME=~caleb/.ec2/ec2-api-tools
-export LIBDIR=$EC2_HOME/lib
-path=($path $EC2_HOME/bin)
+if [ -d ~/.ec2/ec2-api-tools ]; then
+	export EC2_HOME=~/.ec2/ec2-api-tools
+	export LIBDIR=$EC2_HOME/lib
+	path=($path $EC2_HOME/bin)
+fi
 
 sourceifexists ~/.zshrc-private
 
