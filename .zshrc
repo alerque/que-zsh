@@ -12,7 +12,7 @@ zle -N edit-command-line
 
 # Enable the vcs_info module so we can make PROMPT VCS aware
 autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git svn bzr
+zstyle ':vcs_info:*' enable git svn
 
 auth () {
 	ssh-agent
