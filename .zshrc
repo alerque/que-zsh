@@ -1,3 +1,5 @@
+export HOSTNAME=${HOSTNAME:=$(hostname -s)}
+
 autoload -Uz colors && colors
 
 autoload -Uz incremental-complete-word
