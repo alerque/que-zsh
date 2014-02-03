@@ -426,7 +426,8 @@ compctl -x 'p[1]' -k '(breakroom office1 office2 pharm2 pharm3 pharm5 workstatio
 
 go () {
 	[ -d ~/projects/$1 ] && cd ~/projects/$1 && return
-	reply=(`/bin/ls ~/projects`)
+	[ -d ~/projects/websites/$1 ] && cd ~/projects/websites/$1 && return
+	reply=($(find ~/projects ~/projects/websites -maxdepth 1 -mindepth 1 -type d -exec basename {} \; 2>/dev/null))
 }
 
 compctl -K go go
