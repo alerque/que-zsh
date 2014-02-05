@@ -339,6 +339,7 @@ alias gitdiff="git diff | colordiff"
 alias bzrdiff="bzr diff | colordiff"
 
 alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
+alias ya="yaourt --noconfirm"
 
 vcsh() {
 	case $1; in
