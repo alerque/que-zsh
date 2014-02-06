@@ -17,15 +17,9 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn
 
 auth () {
-	ssh-agent
-	ssh-add ~/.ssh/id_rsa
-	sudo echo -n
-}
-
-authi () {
-	ssh-agent | source /dev/stdin
-	ssh-add ~/.ssh/id_rsa
-	sudo echo -n
+	which keychain 2> /dev/null || return
+	eval $(keychain --eval -Q --quiet ~/.ssh/id_rsa)
+	eval $(keychain --eval -Q --quiet ~/.ssh/github)
 }
 
 lineTrim () {
