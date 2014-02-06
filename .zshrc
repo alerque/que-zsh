@@ -17,7 +17,7 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn
 
 auth () {
-	which keychain 2> /dev/null || return
+	which keychain > /dev/null 2>&1 || return
 	eval $(keychain --eval -Q --quiet ~/.ssh/id_rsa ~/.ssh/github)
 }
 
