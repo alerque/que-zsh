@@ -18,8 +18,7 @@ zstyle ':vcs_info:*' enable git svn
 
 auth () {
 	which keychain 2> /dev/null || return
-	eval $(keychain --eval -Q --quiet ~/.ssh/id_rsa)
-	eval $(keychain --eval -Q --quiet ~/.ssh/github)
+	eval $(keychain --eval -Q --quiet ~/.ssh/id_rsa ~/.ssh/github)
 }
 
 lineTrim () {
