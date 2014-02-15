@@ -82,6 +82,10 @@ alias kk='killall xv'
 alias ddstatus='sudo pkill -USR1 -x dd'
 alias sc='sudo systemctl'
 compdef sc='systemctl'
+alias se='sudoedit'
+compdef se='sudoedit'
+alias ya='yaourt --noconfirm'
+compdef ya='pacman'
 
 unset MAIL MAILCHECK MAILPATH
 HISTSIZE=50000
