@@ -163,6 +163,7 @@ umask 022
 setopt autocd
 setopt completealiases
 setopt extendedglob
+unsetopt nomatch
 setopt histignoredups
 setopt multios
 setopt prompt_subst
