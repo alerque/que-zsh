@@ -280,6 +280,10 @@ compctl -z fg
 compctl -g "*.deb *.rpm *.tgz" + -g "*(-/) .*(-/)" alien
 compctl -g "*.exe *.Exe *.EXE" + -g "*(-/) .*(-/)" wine
 
+gv () {
+	gvim --remote-tab-silent $1
+}
+
 t () {
 	print -Pn "]0;%m:$1"
 	tmux attach -d -t $1 || tmux new -s $1
@@ -324,6 +328,7 @@ alias lv='ls -al --color=auto|less'
 alias ..='cd ..'
 alias br='sudo -s'
 alias uh="sudo /usr/local/bin/triggers/update_host.zsh"
+
 
 # Default argument aliases
 alias less='less -X -M -r'
