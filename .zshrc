@@ -84,8 +84,10 @@ alias sc='sudo systemctl'
 compdef sc='systemctl'
 alias se='sudoedit'
 compdef se='sudoedit'
-alias ya='yaourt --noconfirm'
-compdef ya='pacman'
+command -v yaourt && {
+	alias ya='yaourt --noconfirm'
+	compdef ya='pacman'
+}
 
 unset MAIL MAILCHECK MAILPATH
 HISTSIZE=50000
@@ -319,12 +321,20 @@ fi
 alias h="vcsh"
 compdef h="vcsh"
 
+case $(uname -s) in
+	Darwin)
+		lscolor='-G'
+		;;
+	Linux)
+		lscolor='--color=auto'
+		;;
+esac
 alias tl='tmux ls | cut -d: -f1 | sort'
-alias l='ls -al --color=auto'
-alias ls='ls -BF --color=auto'
-alias ll='ls -l --color=auto'
-alias la='ls -a --color=auto'
-alias lv='ls -al --color=auto|less'
+alias l="ls -al $lscolor"
+alias ls="ls -BF $lscolor"
+alias ll="ls -l $lscolor"
+alias la="ls -a $lscolor"
+alias lv="ls -al $lscolor|less"
 alias ..='cd ..'
 alias br='sudo -s'
 alias uh="sudo /usr/local/bin/triggers/update_host.zsh"
