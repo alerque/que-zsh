@@ -282,9 +282,13 @@ compctl -z fg
 compctl -g "*.deb *.rpm *.tgz" + -g "*(-/) .*(-/)" alien
 compctl -g "*.exe *.Exe *.EXE" + -g "*(-/) .*(-/)" wine
 
-gv () {
-	gvim --remote-tab-silent $1
-}
+if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
+	alias v="mvim --remote-tab-silent"
+elif false; then
+	alias v="givm --remote-tab-silent"
+else
+	alias v=$VISUAL
+fi
 
 t () {
 	print -Pn "]0;%m:$1"
