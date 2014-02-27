@@ -84,7 +84,7 @@ alias sc='sudo systemctl'
 compdef sc='systemctl'
 alias se='sudoedit'
 compdef se='sudoedit'
-command -v yaourt && {
+command -v yaourt > /dev/null && {
 	alias ya='yaourt --noconfirm'
 	compdef ya='pacman'
 }
@@ -103,16 +103,22 @@ PAGER='less -r'
 
 preexec() {
 	# Give tmux some info on what is running in the shell before we go off and do it
-	[ -n "$TMUX_PANE" ] && print -Pn "k`echo $2|perl -pne 's!\s.*/! !g'|cut -c1-16`\\"
+	if [ -n "$TMUX_PANE" ]; then
+		cmd=${2[(w)1]}
+		print -Pn "k$cmd\\"
+	fi
 }
 
 precmd () {
 	vcs_info
 	if [ -n "$TMUX_PANE" ]; then
-		# Let tmux know we're back at a prompt
 		print -Pn "k \\"
-		#print -Pn ']0;%m:%~'
 	fi
+	case $TERM in
+		xterm*)
+			print -Pn "]0;%m"
+		;;
+	esac
 }
 
 vim_ins_mode="%F{green}"
@@ -173,7 +179,6 @@ setopt pushdignoredups
 
 #no console beep
 setopt nobeep
-echo -en "[11;0]"
 
 bindkey -v
 bindkey "^K" history-search-backward
@@ -360,7 +365,6 @@ alias gitdiff="git diff | colordiff"
 alias bzrdiff="bzr diff | colordiff"
 
 alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
-alias ya="yaourt --noconfirm"
 
 vcsh() {
 	case $1; in
