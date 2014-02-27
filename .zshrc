@@ -284,10 +284,14 @@ compctl -g "*.exe *.Exe *.EXE" + -g "*(-/) .*(-/)" wine
 
 if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
 	alias v="mvim --remote-tab-silent"
-elif false; then
-	alias v="givm --remote-tab-silent"
-else
+elif [[ $DESKTOP_SESSION == "gnome" ]]; then
+	alias v="gvim --remote-tab-silent"
+elif [[ -n "$VISUAL" ]]; then
 	alias v=$VISUAL
+elif command -v vim; then
+	alias v=vim
+else
+	alias v=vi
 fi
 
 t () {
