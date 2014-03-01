@@ -81,13 +81,7 @@ thumbs () {
 alias kk='killall xv'
 alias ddstatus='sudo pkill -USR1 -x dd'
 alias sc='sudo systemctl'
-compdef sc='systemctl'
 alias se='sudoedit'
-compdef se='sudoedit'
-command -v yaourt > /dev/null && {
-	alias ya='yaourt --noconfirm'
-	compdef ya='pacman'
-}
 
 unset MAIL MAILCHECK MAILPATH
 HISTSIZE=50000
@@ -332,7 +326,6 @@ fi
 
 # Typing convenience aliases
 alias h="vcsh"
-compdef h="vcsh"
 
 case $(uname -s) in
 	Darwin)
@@ -363,6 +356,7 @@ alias svndiff="svn diff -x -b | colordiff"
 alias cvsdiff="cvs diff -u | colordiff"
 alias gitdiff="git diff | colordiff"
 alias bzrdiff="bzr diff | colordiff"
+alias gco="git checkout"
 
 alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
 
@@ -486,7 +480,13 @@ case $HOSTNAME in
 		;;
 esac
 
-compdef burn='cdrecord'
+setopt no_complete_aliases
+
+command -v yaourt > /dev/null && {
+	compdef yaourt='pacman'
+	alias ya='yaourt --noconfirm'
+	compdef ya='yaourt'
+}
 
 # black red green yellow blue magenta cyan white
 case $HOSTNAME in
