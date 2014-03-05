@@ -101,6 +101,7 @@ PAGER='less -r'
 [ -d /opt/android-sdk/platform-tools ] && path=($path /opt/android-sdk/platform-tools)
 [ -d /opt/android-sdk/tools ] && path=($path /opt/android-sdk/tools)
 
+[ -d /usr/texbin ] && patch=($path /usr/texbin)
 preexec() {
 	# Give tmux some info on what is running in the shell before we go off and do it
 	[ -n "$TMUX_PANE" ] && print -Pn "k`echo $2|perl -pne 's!\s.*/! !g'|cut -c1-16`\\"
