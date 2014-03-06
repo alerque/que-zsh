@@ -90,11 +90,15 @@ EDITOR=vim
 VISUAL=vim
 PAGER='less -r'
 
-[ -d ~/projects/android/sdk/tools ] && path=($path ~/projects/android/sdk/tools)
-[ -d /usr/local/apache-ant-1.6.5 ] && path=($path /usr/local/apache-ant-1.6.5/bin)
-[ -d /opt/android-sdk/platform-tools ] && path=($path /opt/android-sdk/platform-tools)
-[ -d /opt/android-sdk/tools ] && path=($path /opt/android-sdk/tools)
-[ -d ~/projects/liturji_aletleri/bin ] && path=($path ~/projects/liturji_aletleri/bin)
+function addtopath () {
+	[ -d $1 ] && path=($path $1)
+}
+
+addtopath ~/projects/android/sdk/tools
+addtopath /usr/local/apache-ant-1.6.5/bin
+addtopath /opt/android-sdk/platform-tools
+addtopath /opt/android-sdk/tools
+addtopath ~/projects/liturji_aletleri/bin
 
 preexec() {
 	# Give tmux some info on what is running in the shell before we go off and do it
