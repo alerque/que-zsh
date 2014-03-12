@@ -81,13 +81,7 @@ thumbs () {
 alias kk='killall xv'
 alias ddstatus='sudo pkill -USR1 -x dd'
 alias sc='sudo systemctl'
-compdef sc='systemctl'
 alias se='sudoedit'
-compdef se='sudoedit'
-command -v yaourt && {
-	alias ya='yaourt --noconfirm'
-	compdef ya='pacman'
-}
 
 unset MAIL MAILCHECK MAILPATH
 HISTSIZE=50000
@@ -96,24 +90,35 @@ EDITOR=vim
 VISUAL=vim
 PAGER='less -r'
 
-[ -d ~/projects/android/sdk/tools ] && path=($path ~/projects/android/sdk/tools)
-[ -d /usr/local/apache-ant-1.6.5 ] && path=($path /usr/local/apache-ant-1.6.5/bin)
-[ -d /opt/android-sdk/platform-tools ] && path=($path /opt/android-sdk/platform-tools)
-[ -d /opt/android-sdk/tools ] && path=($path /opt/android-sdk/tools)
+function addtopath () {
+	[ -d $1 ] && path=($path $1)
+}
+
+addtopath ~/projects/android/sdk/tools
+addtopath /usr/local/apache-ant-1.6.5/bin
+addtopath /opt/android-sdk/platform-tools
+addtopath /opt/android-sdk/tools
+addtopath ~/projects/liturji_aletleri/bin
 
 [ -d /usr/texbin ] && patch=($path /usr/texbin)
 preexec() {
 	# Give tmux some info on what is running in the shell before we go off and do it
-	[ -n "$TMUX_PANE" ] && print -Pn "k`echo $2|perl -pne 's!\s.*/! !g'|cut -c1-16`\\"
+	if [ -n "$TMUX_PANE" ]; then
+		cmd=${2[(w)1]}
+		print -Pn "k$cmd\\"
+	fi
 }
 
 precmd () {
 	vcs_info
 	if [ -n "$TMUX_PANE" ]; then
-		# Let tmux know we're back at a prompt
 		print -Pn "k \\"
-		#print -Pn ']0;%m:%~'
 	fi
+	case $TERM in
+		xterm*)
+			print -Pn "]0;%m"
+		;;
+	esac
 }
 
 vim_ins_mode="%F{green}"
@@ -174,7 +179,6 @@ setopt pushdignoredups
 
 #no console beep
 setopt nobeep
-echo -en "[11;0]"
 
 bindkey -v
 bindkey "^K" history-search-backward
@@ -285,10 +289,14 @@ compctl -g "*.exe *.Exe *.EXE" + -g "*(-/) .*(-/)" wine
 
 if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
 	alias v="mvim --remote-tab-silent"
-elif false; then
-	alias v="givm --remote-tab-silent"
-else
+elif [[ $DESKTOP_SESSION == "gnome" ]]; then
+	alias v="gvim --remote-tab-silent"
+elif [[ -n "$VISUAL" ]]; then
 	alias v=$VISUAL
+elif command -v vim; then
+	alias v=vim
+else
+	alias v=vi
 fi
 
 t () {
@@ -324,7 +332,6 @@ fi
 
 # Typing convenience aliases
 alias h="vcsh"
-compdef h="vcsh"
 
 case $(uname -s) in
 	Darwin)
@@ -355,9 +362,9 @@ alias svndiff="svn diff -x -b | colordiff"
 alias cvsdiff="cvs diff -u | colordiff"
 alias gitdiff="git diff | colordiff"
 alias bzrdiff="bzr diff | colordiff"
+alias gco="git checkout"
 
 alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
-alias ya="yaourt --noconfirm"
 
 vcsh() {
 	case $1; in
@@ -479,7 +486,13 @@ case $HOSTNAME in
 		;;
 esac
 
-compdef burn='cdrecord'
+setopt no_complete_aliases
+
+command -v yaourt > /dev/null && {
+	compdef yaourt='pacman'
+	alias ya='yaourt --noconfirm'
+	compdef ya='yaourt'
+}
 
 # black red green yellow blue magenta cyan white
 case $HOSTNAME in
