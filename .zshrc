@@ -489,7 +489,21 @@ setopt no_complete_aliases
 
 command -v yaourt > /dev/null && {
 	compdef yaourt='pacman'
-	alias ya='yaourt --noconfirm'
+	function ya () {
+		case $1 in
+			-Q*|-Ss*)
+				command yaourt "$@"
+				return $?
+				;;
+			*)
+				sudo etckeeper pre-install
+				command yaourt --noconfirm "$@"
+				retval=$?
+				sudo etckeeper post-install
+				return $retval
+				;;
+		esac
+	}
 	compdef ya='yaourt'
 }
 
