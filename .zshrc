@@ -496,10 +496,10 @@ command -v yaourt > /dev/null && {
 				return $?
 				;;
 			*)
-				sudo etckeeper pre-install
+				hash etckeeper && sudo etckeeper pre-install
 				command yaourt --noconfirm "$@"
 				retval=$?
-				sudo etckeeper post-install
+				hash etckeeper && sudo etckeeper post-install
 				return $retval
 				;;
 		esac
