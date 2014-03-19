@@ -451,9 +451,14 @@ pharmacyadmin () {
 compctl -x 'p[1]' -k '(breakroom office1 office2 pharm2 pharm3 pharm5 workstation et et2 unknown pos2 pos3 posserver cl)' -- pharmacyadmin
 
 go () {
-	[ -d ~/projects/$1 ] && cd ~/projects/$1 && return
-	[ -d ~/projects/websites/$1 ] && cd ~/projects/websites/$1 && return
-	reply=($(find ~/projects ~/projects/websites -maxdepth 1 -mindepth 1 -type d -exec basename {} \; 2>/dev/null))
+	[[ $1 == "s" ]] && pushd && cd ~/scratch && return
+	[[ $1 == "b" ]] && popd && return
+	[ -d ~/projects/$1 ] && pushd && cd ~/projects/$1 && return
+	[ -d ~/projects/websites/$1 ] && pushd && cd ~/projects/websites/$1 && return
+	[ -d ~/projects/ipk/$1 ] && pushd && cd ~/projects/ipk/$1 && return
+	[ -d ~/projects/systems/$1 ] && pushd && cd ~/projects/systems/$1 && return
+	[ -d ~/scratch/$1 ] && pushd && cd ~/scratch/$1 && return
+	reply=($(find ~/{projects{,/websites,/ipk,/systems},scratch} -maxdepth 1 -mindepth 1 -type d -exec basename {} \; 2>/dev/null))
 }
 
 compctl -K go go
@@ -490,7 +495,21 @@ setopt no_complete_aliases
 
 command -v yaourt > /dev/null && {
 	compdef yaourt='pacman'
-	alias ya='yaourt --noconfirm'
+	function ya () {
+		case $1 in
+			-Q*|-Ss*)
+				command yaourt "$@"
+				return $?
+				;;
+			*)
+				hash etckeeper && sudo etckeeper pre-install
+				command yaourt --noconfirm "$@"
+				retval=$?
+				hash etckeeper && sudo etckeeper post-install
+				return $retval
+				;;
+		esac
+	}
 	compdef ya='yaourt'
 }
 
