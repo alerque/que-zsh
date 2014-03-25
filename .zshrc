@@ -102,6 +102,7 @@ addtopath /opt/android-sdk/platform-tools
 addtopath /opt/android-sdk/tools
 addtopath ~/projects/liturji_aletleri/bin
 
+[ -d /usr/texbin ] && patch=($path /usr/texbin)
 preexec() {
 	# Give tmux some info on what is running in the shell before we go off and do it
 	if [ -n "$TMUX_PANE" ]; then
