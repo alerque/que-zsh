@@ -356,7 +356,6 @@ alias less='less -X -M -r'
 alias mkiso='mkisofs -J -r -joliet-long -o'
 
 # Convenience functions
-alias fit="cut -b1-$COLUMNS"
 alias svndiff="svn diff -x -b | colordiff"
 alias cvsdiff="cvs diff -u | colordiff"
 alias gitdiff="git diff | colordiff"
@@ -364,6 +363,10 @@ alias bzrdiff="bzr diff | colordiff"
 alias gco="git checkout"
 
 alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
+
+fit() {
+	cat - | cut -b1-$COLUMNS
+}
 
 vcsh() {
 	case $1; in
