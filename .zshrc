@@ -94,6 +94,8 @@ function addtopath () {
 	[ -d $1 ] && path=($path $1)
 }
 
+path=(~/bin $path)
+
 addtopath ~/projects/android/sdk/tools
 addtopath /usr/local/apache-ant-1.6.5/bin
 addtopath /opt/android-sdk/platform-tools
