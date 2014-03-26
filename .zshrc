@@ -94,6 +94,10 @@ function addtopath () {
 	[ -d $1 ] && path=($path $1)
 }
 
+# Homebrew and MacTex fixes (Mac specific but no harm done)
+path=(/usr/local/bin $path)
+addtopath /usr/texbin
+
 path=(~/bin $path)
 
 addtopath ~/projects/android/sdk/tools
@@ -102,7 +106,7 @@ addtopath /opt/android-sdk/platform-tools
 addtopath /opt/android-sdk/tools
 addtopath ~/projects/liturji_aletleri/bin
 
-[ -d /usr/texbin ] && patch=($path /usr/texbin)
+
 preexec() {
 	# Give tmux some info on what is running in the shell before we go off and do it
 	if [ -n "$TMUX_PANE" ]; then
@@ -471,7 +475,7 @@ compctl -K go go
 if [ -d ~/.ec2/ec2-api-tools ]; then
 	export EC2_HOME=~/.ec2/ec2-api-tools
 	export LIBDIR=$EC2_HOME/lib
-	path=($path $EC2_HOME/bin)
+	addtopath $EC2_HOME/bin
 fi
 
 sourceifexists ~/.zshrc-private
