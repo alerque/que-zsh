@@ -249,8 +249,7 @@ zsh_get_host_list () {
 		cut -d\. -f1`)
 }
 zsh_get_user_list () {
-	reply=(`cat /etc/passwd |
-		 awk -F: '{print $1 ":" $4}'`)
+	reply=($(cut -d: -f1 /etc/passwd))
 }
 zsh_get_picture_dirs () {
 	IFS='^'
