@@ -241,9 +241,7 @@ fi
 
 ## COMPLETION ##
 zsh_complete_tmux_list () {
-	reply=(` tmux ls |
-		cut -d: -f1 |
-		sort`)
+	reply=($(tmux ls -F '#S' 2>-))
 }
 zsh_get_host_list () {
 	reply=(`dig axfr ouraynet.com @ns1.ouraynet.com|
