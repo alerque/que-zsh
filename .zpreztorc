@@ -36,14 +36,10 @@ zstyle ':prezto:load' pmodule \
   'syntax-highlighting' \
   'history-substring-search'\
   'command-not-found' \
-  'editor' \
   'git' \
   'helper' \
   'pacman' \
   'ssh' \
-  'terminal' \
-  'utility' \
-  'wakeonlan' \
   'tmux' \
   'archive'
 
@@ -155,10 +151,10 @@ zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'github'
 zstyle ':prezto:module:terminal' auto-title 'yes'
 
 # Set the window title format.
-# zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
+zstyle ':prezto:module:terminal:window-title' format '%m: %s'
 
 # Set the tab title format.
-# zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
+zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
 
 #
 # Tmux

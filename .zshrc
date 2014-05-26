@@ -44,13 +44,6 @@ export EDITOR VISUAL PAGER
 # Extra bindings
 bindkey "$key_info[Control]R" transpose-words
 
-kill-last-word () {
-	zle backward-word
-	zle kill-word
-}
-zle -N kill-last-word
-bindkey "^B" kill-last-word
-
 # http://unix.stackexchange.com/questions/10825/remember-a-half-typed-command-while-i-check-something/11982#11982 
 fancy-ctrl-z () {
   emulate -LR zsh
@@ -138,6 +131,25 @@ vcsh() {
 			command vcsh "$@"
 			;;
 	esac
+}
+command -v yaourt > /dev/null && {
+	compdef yaourt='pacman'
+	function ya () {
+		case $1 in
+			-Q*|-Ss*)
+				command yaourt "$@"
+				return $?
+				;;
+			*)
+				hash etckeeper && sudo etckeeper pre-install
+				command yaourt --noconfirm "$@"
+				retval=$?
+				hash etckeeper && sudo etckeeper post-install
+				return $retval
+				;;
+		esac
+	}
+	compdef ya='yaourt'
 }
 
 # Path fixes
@@ -489,25 +501,6 @@ esac
 
 setopt no_complete_aliases
 
-command -v yaourt > /dev/null && {
-	compdef yaourt='pacman'
-	function ya () {
-		case $1 in
-			-Q*|-Ss*)
-				command yaourt "$@"
-				return $?
-				;;
-			*)
-				hash etckeeper && sudo etckeeper pre-install
-				command yaourt --noconfirm "$@"
-				retval=$?
-				hash etckeeper && sudo etckeeper post-install
-				return $retval
-				;;
-		esac
-	}
-	compdef ya='yaourt'
-}
 
 # black red green yellow blue magenta cyan white
 case $HOSTNAME in

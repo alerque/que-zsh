@@ -1,4 +1,4 @@
-#files: 710	version: 5.0.5
+#files: 704	version: 5.0.5
 
 _comps=(
 '-' '_precommand'
@@ -1145,7 +1145,6 @@ _comps=(
 'vuxctl' '_vux'
 'w3m' '_w3m'
 'wait' '_wait'
-'wake' '_wake'
 'wemux' '_wemux'
 'wget' '_wget'
 'what' '_sccs'
@@ -1474,22 +1473,22 @@ autoload -Uz _a2ps _aap _ack _acpi _acpitool \
             _vagrant _valgrind _value _values _vared \
             _vars _vcsh _veewee _vim _virtualbox \
             _vnc _vnstat _vorbis _vorbiscomment _vpnc \
-            _vserver _vux _w3m _wait _wake \
-            _wakeup_capable_devices _wanted _webbrowser _wemux _wget \
-            _whereis _which _whois _wiggle _wpa_cli \
-            _xargs _x_arguments _xauth _x_borderwidth _xclip \
-            _x_color _x_colormapid _x_cursor _x_display _xdvi \
-            _x_extension _xfig _x_font _xft_fonts _x_geometry \
-            _x_keysym _xloadimage _x_locale _xmlsoft _xmms2 \
-            _x_modifier _xmodmap _x_name _xournal _xpdf \
-            _xrandr _x_resource _xscreensaver _x_selection_timeout _xset \
-            _xt_arguments _xterm _x_title _xt_session_id _x_utils \
-            _xv _x_visual _x_window _xwit _xz \
-            _yaourt _yodl _yp _zargs _zattr \
-            _zcalc_line _zcat _zcompile _zdump _zed \
-            _zfs _zfs_dataset _zfs_keysource_props _zfs_pool _zftp \
-            _zip _zle _zmodload _zmv _zpool \
-            _zpty _zsh-mime-handler _zstyle _ztodo
+            _vserver _vux _w3m _wait _wakeup_capable_devices \
+            _wanted _webbrowser _wemux _wget _whereis \
+            _which _whois _wiggle _wpa_cli _xargs \
+            _x_arguments _xauth _x_borderwidth _xclip _x_color \
+            _x_colormapid _x_cursor _x_display _xdvi _x_extension \
+            _xfig _x_font _xft_fonts _x_geometry _x_keysym \
+            _xloadimage _x_locale _xmlsoft _xmms2 _x_modifier \
+            _xmodmap _x_name _xournal _xpdf _xrandr \
+            _x_resource _xscreensaver _x_selection_timeout _xset _xt_arguments \
+            _xterm _x_title _xt_session_id _x_utils _xv \
+            _x_visual _x_window _xwit _xz _yaourt \
+            _yodl _yp _zargs _zattr _zcalc_line \
+            _zcat _zcompile _zdump _zed _zfs \
+            _zfs_dataset _zfs_keysource_props _zfs_pool _zftp _zip \
+            _zle _zmodload _zmv _zpool _zpty \
+            _zsh-mime-handler _zstyle _ztodo
 autoload -Uz +X _call_program
 
 typeset -gUa _comp_assocs
