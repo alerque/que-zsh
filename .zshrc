@@ -102,15 +102,9 @@ else
 fi
 
 # Convenience functions
-vcsh() {
-	case $1; in
-		list-untracked)
-			command ls | grep -vxf <(vcsh list-tracked)
-			;;
-		*)
-			command vcsh "$@"
-			;;
-	esac
+auth () {
+	which keychain > /dev/null 2>&1 || return
+	eval $(keychain --eval -Q --quiet ~/.ssh/id_rsa ~/.ssh/github)
 }
 fit() {
 	cat - | cut -b1-$COLUMNS
@@ -126,19 +120,6 @@ go () {
 	reply=($(find ~/{projects{,/websites,/ipk,/systems},scratch} -maxdepth 1 -mindepth 1 -type d -exec basename {} \; 2>/dev/null))
 }
 compctl -K go go
-
-# Skip old configs for now
-return
-
-# Enable the vcs_info module so we can make PROMPT VCS aware
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git svn
-
-auth () {
-	which keychain > /dev/null 2>&1 || return
-	eval $(keychain --eval -Q --quiet ~/.ssh/id_rsa ~/.ssh/github)
-}
-
 lineTrim () {
 	bottom=$2
 	let top=$bottom-$1+1
@@ -148,6 +129,43 @@ lineTrim () {
 sourceifexists () {
 	[ -f "$1" ] && source "$1"
 }
+vcsh() {
+	case $1; in
+		list-untracked)
+			command ls | grep -vxf <(vcsh list-tracked)
+			;;
+		*)
+			command vcsh "$@"
+			;;
+	esac
+}
+
+# Path fixes
+function addtopath () {
+	[ -d $1 ] && path=($path $1)
+}
+addtopath /usr/texbin
+addtopath ~/projects/android/sdk/tools
+addtopath /usr/local/apache-ant-1.6.5/bin
+addtopath /opt/android-sdk/platform-tools
+addtopath /opt/android-sdk/tools
+addtopath ~/projects/liturji_aletleri/bin
+if [ -d ~/.ec2/ec2-api-tools ]; then
+	export ec2_home=~/.ec2/ec2-api-tools
+	export libdir=$ec2_home/lib
+	addtopath $ec2_home/bin
+fi
+
+# Include encrypted stuff in another repo
+sourceifexists ~/.zshrc-private
+
+# Skip old configs for now
+return
+
+# Enable the vcs_info module so we can make PROMPT VCS aware
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git svn
+
 
 pcd () {
 	d1="$PICTUREDIR/$1"
@@ -201,22 +219,6 @@ unset MAIL MAILCHECK MAILPATH
 HISTSIZE=50000
 SAVEHIST=50000
 
-function addtopath () {
-	[ -d $1 ] && path=($path $1)
-}
-
-# Homebrew and MacTex fixes (Mac specific but no harm done)
-path=(/usr/local/bin $path)
-addtopath /usr/texbin
-
-path=(~/bin $path)
-
-addtopath ~/projects/android/sdk/tools
-addtopath /usr/local/apache-ant-1.6.5/bin
-addtopath /opt/android-sdk/platform-tools
-addtopath /opt/android-sdk/tools
-addtopath ~/projects/liturji_aletleri/bin
-
 preexec() {
 	# Give tmux some info on what is running in the shell before we go off and do it
 	if [ -n "$TMUX_PANE" ]; then
@@ -254,9 +256,8 @@ zle -N zle-line-finish
 
 #RPROMPT='%F{black}%* ${vim_mode}'
 
-
-zstyle ':vcs_info:*' stagedstr 'M' 
-zstyle ':vcs_info:*' unstagedstr 'M' 
+zstyle ':vcs_info:*' stagedstr 'M'
+zstyle ':vcs_info:*' unstagedstr 'M'
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' formats '%F{5}%s{%F{green}%b%F{5}} %F{yellow}%a%F{green}%c%F{red}%u%F{red}%m%f'
 zstyle ':vcs_info:*' actionformats '%F{5}%s{%F{green}%b%F{5}}-%a %F{yellow}%a%F{green}%c%F{red}%u%F{red}%m%f'
@@ -265,7 +266,7 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
   if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
     git status --porcelain | grep '??' &> /dev/null ; then
     hook_com[unstaged]+='%F{1}?%f'
-  fi  
+  fi
 }
 
 local lastexitcode='%(?,%F{green}✓,%F{red}✗)%f'
@@ -466,21 +467,12 @@ pharmacyadmin () {
 }
 compctl -x 'p[1]' -k '(breakroom office1 office2 pharm2 pharm3 pharm5 workstation et et2 unknown pos2 pos3 posserver cl)' -- pharmacyadmin
 
-
-if [ -d ~/.ec2/ec2-api-tools ]; then
-	export EC2_HOME=~/.ec2/ec2-api-tools
-	export LIBDIR=$EC2_HOME/lib
-	addtopath $EC2_HOME/bin
-fi
-
-sourceifexists ~/.zshrc-private
-
 case $HOSTNAME in
 	leylek)
 		;;
 	lemur)
 		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
-		alias soundceptor='pacat -r -d alsa_output.pci-0000_00_14.2.analog-surround-50.monitor | sox -t raw -r 44100 -s -L -b 16 -c 2 - "output.wav"'
+		alias soundceptor='pacat -r -d alsa_output.pci-0000_00_14.2.analog-surround-50.monitor | sox -t raw -r 44100 -s -l -b 16 -c 2 - "output.wav"'
 		;;
 	pars)
 		alias mplayer="mplayer -monitoraspect 3/4"
@@ -490,7 +482,7 @@ case $HOSTNAME in
 	*)
 		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
 		function drivetemps () {
-			for i in a b c d e; do sudo smartctl --all /dev/sd$i | grep Temperature_Celsius; done
+			for i in a b c d e; do sudo smartctl --all /dev/sd$i | grep temperature_celsius; done
 		}
 		;;
 esac
@@ -529,8 +521,6 @@ esac
 merge_rpmnew () {
 	vim -d $1{,.rpmnew} && rm -i $1.rpmnew
 }
-
-
 
 accept-line() { prev_mode=$KEYMAP; zle .accept-line }
 zle-line-init() { zle -K ${prev_mode:-viins} }
