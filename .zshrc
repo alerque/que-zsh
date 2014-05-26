@@ -12,22 +12,123 @@ fi
 
 # Customize to your needs...
 
-# Skip old configs for now
-return
+# OS specific options for later re-use
+case $(uname -s) in
+	Darwin)
+		lscolor='-G'
+		;;
+	Linux)
+		lscolor='--color=always'
+		;;
+esac
 
+# Add extra bindings for modules loaded by zprezto
+bindkey -M viins "$key_info[Control]K" history-substring-search-up
+bindkey -M viins "$key_info[Control]J" history-substring-search-down
+
+# These doesn't get set right on some of my systems
 export HOSTNAME=${HOSTNAME:=$(hostname -s)}
+umask 022
 
-autoload -Uz colors && colors
-
-autoload -Uz incremental-complete-word
-zle -N incremental-complete-word
-
-autoload -Uz compinit && compinit
-zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
-zstyle ':completion:*' menu select
-
+# Enable editing of current command in editor
 autoload -z edit-command-line
 zle -N edit-command-line
+bindkey "$key_info[Control]E" edit-command-line
+
+# Set default programs
+EDITOR=vim
+VISUAL=vim
+PAGER='less -r'
+export EDITOR VISUAL PAGER
+
+# Extra bindings
+bindkey "$key_info[Control]R" transpose-words
+
+kill-last-word () {
+	zle backward-word
+	zle kill-word
+}
+zle -N kill-last-word
+bindkey "^B" kill-last-word
+
+# http://unix.stackexchange.com/questions/10825/remember-a-half-typed-command-while-i-check-something/11982#11982 
+fancy-ctrl-z () {
+  emulate -LR zsh
+  if [[ $#BUFFER -eq 0 ]]; then
+    bg
+    zle redisplay
+  else
+    zle push-input
+  fi
+}
+
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
+
+# Default argument aliases
+alias less='less -X -M -r'
+alias mkiso='mkisofs -J -r -joliet-long -o'
+alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
+
+# Default argument functions
+git () {
+	case "$PWD"; in
+		$HOME/rpm/*)
+			command git -c user.email=$USER@pld-linux.org "$@"
+			;;
+		*)
+			command git "$@"
+			;;
+	esac
+}
+
+# Personal lazy aliases
+alias ddstatus='sudo pkill -USR1 -x dd'
+alias sc='sudo systemctl'
+alias se='sudoedit'
+alias h="vcsh"
+alias lv="ls -al $lscolor|less"
+
+if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
+	alias v="mvim --remote-tab-silent"
+elif [[ -n "$DESKTOP_SESSION" ]]; then
+	alias v="gvim -p --remote-tab-silent"
+elif [[ -n "$VISUAL" ]]; then
+	alias v=$VISUAL
+elif command -v vim; then
+	alias v=vim
+else
+	alias v=vi
+fi
+
+# Convenience functions
+vcsh() {
+	case $1; in
+		list-untracked)
+			command ls | grep -vxf <(vcsh list-tracked)
+			;;
+		*)
+			command vcsh "$@"
+			;;
+	esac
+}
+fit() {
+	cat - | cut -b1-$COLUMNS
+}
+go () {
+	[[ $1 == "s" ]] && pushd && cd ~/scratch && return
+	[[ $1 == "b" ]] && popd && return
+	[ -d ~/projects/$1 ] && pushd && cd ~/projects/$1 && return
+	[ -d ~/projects/websites/$1 ] && pushd && cd ~/projects/websites/$1 && return
+	[ -d ~/projects/ipk/$1 ] && pushd && cd ~/projects/ipk/$1 && return
+	[ -d ~/projects/systems/$1 ] && pushd && cd ~/projects/systems/$1 && return
+	[ -d ~/scratch/$1 ] && pushd && cd ~/scratch/$1 && return
+	reply=($(find ~/{projects{,/websites,/ipk,/systems},scratch} -maxdepth 1 -mindepth 1 -type d -exec basename {} \; 2>/dev/null))
+}
+compctl -K go go
+
+# Skip old configs for now
+return
 
 # Enable the vcs_info module so we can make PROMPT VCS aware
 autoload -Uz vcs_info
@@ -95,17 +196,10 @@ thumbs () {
 			let x=$x+120
 		done
 }
-alias kk='killall xv'
-alias ddstatus='sudo pkill -USR1 -x dd'
-alias sc='sudo systemctl'
-alias se='sudoedit'
 
 unset MAIL MAILCHECK MAILPATH
 HISTSIZE=50000
 SAVEHIST=50000
-EDITOR=vim
-VISUAL=vim
-PAGER='less -r'
 
 function addtopath () {
 	[ -d $1 ] && path=($path $1)
@@ -122,7 +216,6 @@ addtopath /usr/local/apache-ant-1.6.5/bin
 addtopath /opt/android-sdk/platform-tools
 addtopath /opt/android-sdk/tools
 addtopath ~/projects/liturji_aletleri/bin
-
 
 preexec() {
 	# Give tmux some info on what is running in the shell before we go off and do it
@@ -179,43 +272,26 @@ local lastexitcode='%(?,%F{green}✓,%F{red}✗)%f'
 PROMPT='$lastexitcode %F{5}[%(0#,%F{red}%n,%F{blue}%n)%F{5}@%F{$hostcolor}%m%F{5}] %F{green}%~ %F{yellow}$VCSH_REPO_NAME ${vcs_info_msg_0_} %F{black}(%!)
 ${vim_mode}%# %f'
 RPROMPT='%F{black}%*'
+
 PICTUREDIR=/pictures
 THUMBDIR=/pictures/thumbs
 
-export HISTSIZE HISTFILE SAVEHIST PROMPT RPROMPT EDITOR VISUAL PAGER
-
-umask 022
+export HISTSIZE HISTFILE SAVEHIST PROMPT RPROMPT
 
 #setopt NOTIFY
 #setopt HIST_IGNORE_SPACE
 #setopt HIST_IGNORE_DUPS
 #setopt interactivecomment
 
-setopt autocd
-setopt completealiases
 setopt extendedglob
 unsetopt nomatch
 setopt histignoredups
-setopt multios
-setopt prompt_subst
 setopt pushdignoredups
 
 #no console beep
 setopt nobeep
 
 bindkey -v
-bindkey "^K" history-search-backward
-bindkey "^J" history-search-forward
-bindkey "^F" history-incremental-search-backward
-bindkey "^R" transpose-words
-bindkey "^E" edit-command-line
-
-kill-last-word () {
-	zle backward-word
-	zle kill-word
-}
-zle -N kill-last-word
-bindkey "^L" kill-last-word
 
 # Key binding method copied from https://wiki.archlinux.org/index.php/Zsh#Key_bindings
 typeset -A key
@@ -278,46 +354,15 @@ zsh_get_picture_dirs () {
 			let count=$count-1
 		done`)
 }
-zsh_get_initlist () {
-	reply=(--list `chkconfig --list|cut -d\  -f1`)
-}
 compctl -K zsh_get_picture_dirs pcd
 compctl -K zsh_complete_tmux_list tmux t tx
-compctl -K zsh_get_initlist -k '(on off del)' chkconfig
-compctl -x 'p[1]' -K zsh_get_user_list - 'p[2], p[3]' -f -- chown
-compctl -x 'p[1]' -K zsh_get_host_list - 'p[3]' -K zsh_get_user_list -- ssh
-compctl -x 'p[1]' -K zsh_get_host_list -- ping
+
 compctl -g "*(-/) .*(-/)" cd rmdir
-compctl -g "*.gz *.tgz" + -g "*(-/) .*(-/)" gunzip
-compctl -g "*.zip" + -g "*(-/) .*(-/)" unzip
-compctl -g "*.mp3 *.mp2" + -g "*(-/) .*(-/)" mpg123 freeamp xmms x11amp
-compctl -u -x 's[+] c[-1,-f],s[-f+]' -W ~/Mail -f - 's[-f],c[-1,-f]' -f -- mail elm su
 compctl -u passwd be
-compctl -k '(next count)' wmail
-#compctl -k '(help commit checkout status update diff list)' svn
 compctl -g "*.rpm" + -g "*(-/) .*(-/)" rpm2cpio rpm
 compctl -g "*.tgz *.tar.gz *.rpm" + -g "*(/) .*(/)" rpmbuild
-compctl -j -P '%' + -s '`ps -x | tail +2 | cut -c1-5`' + -x 's[-] p[1]' -k "($signals[1,-3])" -- kill
-compctl -x 'w[0,sudo]' -l '' --  sudo
-compctl -x 'w[0,time]' -l '' --  time
-compctl -x 'w[0,watch]' -l '' --  watch
-compctl -x 'w[0,xargs]' -l '' --  xargs
-compctl -c man
-compctl -z fg
 compctl -g "*.deb *.rpm *.tgz" + -g "*(-/) .*(-/)" alien
 compctl -g "*.exe *.Exe *.EXE" + -g "*(-/) .*(-/)" wine
-
-if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
-	alias v="mvim --remote-tab-silent"
-elif [[ -n "$DESKTOP_SESSION" ]]; then
-	alias v="gvim -p --remote-tab-silent"
-elif [[ -n "$VISUAL" ]]; then
-	alias v=$VISUAL
-elif command -v vim; then
-	alias v=vim
-else
-	alias v=vi
-fi
 
 t () {
 	print -Pn "]0;%m:$1"
@@ -345,71 +390,19 @@ trim() {
 	echo $1
 }
 
-if [ -f /etc/pld-release ]; then
-	# Ubuntu's which is too dumb for this stuff
-	alias which='alias | command which --read-alias --show-dot --show-tilde'
-fi
-
 # Typing convenience aliases
-alias h="vcsh"
-
-case $(uname -s) in
-	Darwin)
-		lscolor='-G'
-		;;
-	Linux)
-		lscolor='--color=auto'
-		;;
-esac
 alias tl='tmux ls | cut -d: -f1 | sort'
 alias l="ls -al $lscolor"
 alias ls="ls -BF $lscolor"
-alias ll="ls -l $lscolor"
 alias la="ls -a $lscolor"
-alias lv="ls -al $lscolor|less"
-alias ..='cd ..'
 alias br='sudo -s'
 alias uh="sudo /usr/local/bin/triggers/update_host.zsh"
-
-
-# Default argument aliases
-alias less='less -X -M -r'
-alias mkiso='mkisofs -J -r -joliet-long -o'
 
 # Convenience functions
 alias svndiff="svn diff -x -b | colordiff"
 alias cvsdiff="cvs diff -u | colordiff"
 alias gitdiff="git diff | colordiff"
 alias bzrdiff="bzr diff | colordiff"
-alias gco="git checkout"
-
-alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
-
-fit() {
-	cat - | cut -b1-$COLUMNS
-}
-
-vcsh() {
-	case $1; in
-		list-untracked)
-			command ls | grep -vxf <(vcsh list-tracked)
-			;;
-		*)
-			command vcsh "$@"
-			;;
-	esac
-}
-
-git () {
-	case "$PWD"; in
-		$HOME/rpm/*)
-			command git -c user.email=$USER@pld-linux.org "$@"
-			;;
-		*)
-			command git "$@"
-			;;
-	esac
-}
 
 svneditlog () {
 	rev=$1
@@ -473,18 +466,6 @@ pharmacyadmin () {
 }
 compctl -x 'p[1]' -k '(breakroom office1 office2 pharm2 pharm3 pharm5 workstation et et2 unknown pos2 pos3 posserver cl)' -- pharmacyadmin
 
-go () {
-	[[ $1 == "s" ]] && pushd && cd ~/scratch && return
-	[[ $1 == "b" ]] && popd && return
-	[ -d ~/projects/$1 ] && pushd && cd ~/projects/$1 && return
-	[ -d ~/projects/websites/$1 ] && pushd && cd ~/projects/websites/$1 && return
-	[ -d ~/projects/ipk/$1 ] && pushd && cd ~/projects/ipk/$1 && return
-	[ -d ~/projects/systems/$1 ] && pushd && cd ~/projects/systems/$1 && return
-	[ -d ~/scratch/$1 ] && pushd && cd ~/scratch/$1 && return
-	reply=($(find ~/{projects{,/websites,/ipk,/systems},scratch} -maxdepth 1 -mindepth 1 -type d -exec basename {} \; 2>/dev/null))
-}
-
-compctl -K go go
 
 if [ -d ~/.ec2/ec2-api-tools ]; then
 	export EC2_HOME=~/.ec2/ec2-api-tools
@@ -550,19 +531,6 @@ merge_rpmnew () {
 }
 
 
-# http://unix.stackexchange.com/questions/10825/remember-a-half-typed-command-while-i-check-something/11982#11982 
-fancy-ctrl-z () {
-  emulate -LR zsh
-  if [[ $#BUFFER -eq 0 ]]; then
-    bg
-    zle redisplay
-  else
-    zle push-input
-  fi
-}
-
-zle -N fancy-ctrl-z
-bindkey '^Z' fancy-ctrl-z
 
 accept-line() { prev_mode=$KEYMAP; zle .accept-line }
 zle-line-init() { zle -K ${prev_mode:-viins} }
