@@ -23,8 +23,9 @@ case $(uname -s) in
 esac
 
 # Add extra bindings for modules loaded by zprezto
-bindkey -M viins "$key_info[Control]K" history-substring-search-up
-bindkey -M viins "$key_info[Control]J" history-substring-search-down
+# (currently conflicting with tmux/vim split navigation, using cmd mode anyway)
+#bindkey -M viins "$key_info[Control]K" history-substring-search-up
+#bindkey -M viins "$key_info[Control]J" history-substring-search-down
 
 # These doesn't get set right on some of my systems
 export HOSTNAME=${HOSTNAME:=$(hostname -s)}
