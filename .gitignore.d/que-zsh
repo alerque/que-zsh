@@ -1,7 +1,6 @@
 *
 !/.gitignore.d
 !/.gitignore.d/que-zsh
-!/.zcompdump
 !/.zlogin
 !/.zlogout
 !/.zpreztorc
