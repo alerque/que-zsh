@@ -35,12 +35,6 @@ autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "$key_info[Control]E" edit-command-line
 
-# Set default programs
-EDITOR=vim
-VISUAL=vim
-PAGER='less -r'
-export EDITOR VISUAL PAGER
-
 # Extra bindings
 bindkey "$key_info[Control]R" transpose-words
 
@@ -59,7 +53,6 @@ zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
 # Default argument aliases
-alias less='less -X -M -r'
 alias mkiso='mkisofs -J -r -joliet-long -o'
 alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
 
@@ -102,17 +95,6 @@ auth () {
 fit() {
 	cat - | cut -b1-$COLUMNS
 }
-go () {
-	[[ $1 == "s" ]] && pushd && cd ~/scratch && return
-	[[ $1 == "b" ]] && popd && return
-	[ -d ~/projects/$1 ] && pushd && cd ~/projects/$1 && return
-	[ -d ~/projects/websites/$1 ] && pushd && cd ~/projects/websites/$1 && return
-	[ -d ~/projects/ipk/$1 ] && pushd && cd ~/projects/ipk/$1 && return
-	[ -d ~/projects/systems/$1 ] && pushd && cd ~/projects/systems/$1 && return
-	[ -d ~/scratch/$1 ] && pushd && cd ~/scratch/$1 && return
-	reply=($(find ~/{projects{,/websites,/ipk,/systems},scratch} -maxdepth 1 -mindepth 1 -type d -exec basename {} \; 2>/dev/null))
-}
-compctl -K go go
 lineTrim () {
 	bottom=$2
 	let top=$bottom-$1+1
@@ -152,7 +134,7 @@ command -v yaourt > /dev/null && {
 	compdef ya='yaourt'
 }
 
-# Path fixes
+# Path fixes (and system specific hacks)
 function addtopath () {
 	[ -d $1 ] && path=($path $1)
 }
