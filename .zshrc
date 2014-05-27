@@ -5,10 +5,15 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-# Source Prezto.
+# Source Prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
+
+## Source Powerline
+#if [[ -s /usr/share/zsh/site-contrib/powerline.zsh ]]; then
+  #source /usr/share/zsh/site-contrib/powerline.zsh
+#fi
 
 # Customize to your needs...
 
@@ -153,6 +158,14 @@ fi
 
 # Include encrypted stuff in another repo
 sourceifexists ~/.zshrc-private
+
+case $HOSTNAME in
+camelion|iguana|basilisk) local hostcolor=yellow ;;
+	ns*|*server|mysql|sub|mail|*spam) local hostcolor=red ;;
+	goose|gander) local hostcolor=blue;;
+	leylek|lemur|pars|jaguar|karabatak|shrimp|lobster|oyster|hare) local hostcolor=cyan ;;
+	*) local hostcolor=magenta ;;
+esac
 
 # Skip old configs for now
 return
@@ -486,13 +499,6 @@ setopt no_complete_aliases
 
 
 # black red green yellow blue magenta cyan white
-case $HOSTNAME in
-camelion|iguana|basilisk) local hostcolor=yellow ;;
-	ns*|*server|mysql|sub|mail|*spam) local hostcolor=red ;;
-	goose|gander) local hostcolor=blue;;
-	leylek|lemur|pars|jaguar|karabatak|shrimp|lobster|oyster|hare) local hostcolor=cyan ;;
-	*) local hostcolor=magenta ;;
-esac
 
 merge_rpmnew () {
 	vim -d $1{,.rpmnew} && rm -i $1.rpmnew

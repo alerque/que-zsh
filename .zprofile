@@ -82,3 +82,5 @@ if [[ ! -d "$TMPPREFIX" ]]; then
   mkdir -p "$TMPPREFIX"
 fi
 
+# Needed for powerline
+export PYTHONPATH=/usr/lib/python3.4/site-packages
