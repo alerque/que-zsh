@@ -1,15 +1,10 @@
-#
-# Executes commands at the start of an interactive session.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
-
-# Source Prezto
+# {{{ Source Prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
+# }}}
 
+# {{{ Set additional options I like befond the zsh and prezto defaults
 setopt autocontinue
 setopt completealiases
 setopt dvorak
@@ -24,15 +19,16 @@ unsetopt beep
 unsetopt histbeep
 unsetopt listbeep
 unsetopt nomatch
+# }}}
 
-## Source Powerline
+# {{{ Source Powerline
+# ...or not
 #if [[ -s /usr/share/zsh/site-contrib/powerline.zsh ]]; then
   #source /usr/share/zsh/site-contrib/powerline.zsh
 #fi
+# }}}
 
-# Customize to your needs...
-
-# OS specific options for later re-use
+# {{{ OS specific options for later re-use
 case $(uname -s) in
 	Darwin)
 		lscolor='-G'
@@ -41,22 +37,25 @@ case $(uname -s) in
 		lscolor='--color=always'
 		;;
 esac
+# }}}
 
 # Add extra bindings for modules loaded by zprezto
 # (currently conflicting with tmux/vim split navigation, using cmd mode anyway)
 #bindkey -M viins "$key_info[Control]K" history-substring-search-up
 #bindkey -M viins "$key_info[Control]J" history-substring-search-down
 
-# These doesn't get set right on some of my systems
+# {{{ These doesn't get set right on some of my systems
 export HOSTNAME=${HOSTNAME:=$(hostname -s)}
 umask 022
+# }}}
 
-# Enable editing of current command in editor
+# {{{ Enable editing of current command in editor
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "$key_info[Control]E" edit-command-line
+# }}}
 
-# Extra bindings
+# {{{ Extra bindings
 bindkey "$key_info[Control]R" transpose-words
 
 # http://unix.stackexchange.com/questions/10825/remember-a-half-typed-command-while-i-check-something/11982#11982 
@@ -72,12 +71,14 @@ fancy-ctrl-z () {
 
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
+# }}}
 
-# Default argument aliases
+# {{{ Default argument aliases
 alias mkiso='mkisofs -J -r -joliet-long -o'
 alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
+# }}}
 
-# Default argument functions
+# {{{ Default argument functions
 git () {
 	case "$PWD"; in
 		$HOME/rpm/*)
@@ -88,8 +89,9 @@ git () {
 			;;
 	esac
 }
+# }}}
 
-# Personal lazy aliases
+# {{{ Personal lazy aliases
 alias ddstatus='sudo pkill -USR1 -x dd'
 alias sc='sudo systemctl'
 alias se='sudoedit'
@@ -107,8 +109,9 @@ elif command -v vim; then
 else
 	alias v=vi
 fi
+# }}}
 
-# Convenience functions
+# {{{ Convenience functions
 auth () {
 	which keychain > /dev/null 2>&1 || return
 	eval $(keychain --eval -Q --quiet ~/.ssh/id_rsa ~/.ssh/github)
@@ -154,8 +157,9 @@ command -v yaourt > /dev/null && {
 	}
 	compdef ya='yaourt'
 }
+# }}}
 
-# Path fixes (and system specific hacks)
+# {{{ Path fixes (and system specific hacks)
 function addtopath () {
 	[ -d $1 ] && path=($path $1)
 }
@@ -170,8 +174,9 @@ if [ -d ~/.ec2/ec2-api-tools ]; then
 	export libdir=$ec2_home/lib
 	addtopath $ec2_home/bin
 fi
+# }}}
 
-# Include encrypted stuff in another repo
+# {{{ Include encrypted stuff in another repo
 sourceifexists ~/.zshrc-private
 
 case $HOSTNAME in
@@ -181,9 +186,12 @@ camelion|iguana|basilisk) local hostcolor=yellow ;;
 	leylek|lemur|pars|jaguar|karabatak|shrimp|lobster|oyster|hare) local hostcolor=cyan ;;
 	*) local hostcolor=magenta ;;
 esac
+# }}}
 
 # Skip old configs for now
 return
+
+# {{{ -- Old unrefactored bits
 
 # Enable the vcs_info module so we can make PROMPT VCS aware
 autoload -Uz vcs_info
@@ -508,4 +516,7 @@ zle -N zle-line-init
 
 export KEYTIMEOUT=1
 
+# }}}
+
 #~caleb/bin/knockknock.zsh
+# vim: ftm=marker
