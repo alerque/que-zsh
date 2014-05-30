@@ -10,6 +10,19 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+setopt autocontinue
+setopt completealiases
+setopt dvorak
+setopt histreduceblanks
+setopt magicequalsubst
+setopt markdirs
+setopt menucomplete
+setopt numericglobsort
+setopt shnullcmd
+unsetopt autoremoveslash
+unsetopt beep
+unsetopt histbeep
+unsetopt listbeep
 unsetopt nomatch
 
 ## Source Powerline
@@ -285,14 +298,6 @@ RPROMPT='%F{black}%*'
 
 PICTUREDIR=/pictures
 THUMBDIR=/pictures/thumbs
-
-export HISTSIZE HISTFILE SAVEHIST PROMPT RPROMPT
-
-#setopt NOTIFY
-
-#no console beep
-
-bindkey -v
 
 # Key binding method copied from https://wiki.archlinux.org/index.php/Zsh#Key_bindings
 typeset -A key
