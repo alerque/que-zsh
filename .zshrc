@@ -10,6 +10,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+unsetopt nomatch
+
 ## Source Powerline
 #if [[ -s /usr/share/zsh/site-contrib/powerline.zsh ]]; then
   #source /usr/share/zsh/site-contrib/powerline.zsh
@@ -174,7 +176,6 @@ return
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn
 
-
 pcd () {
 	d1="$PICTUREDIR/$1"
 	d2="$PICTUREDIR/`echo $1 | perl -pne 's/^\d* //g'`"
@@ -288,17 +289,8 @@ THUMBDIR=/pictures/thumbs
 export HISTSIZE HISTFILE SAVEHIST PROMPT RPROMPT
 
 #setopt NOTIFY
-#setopt HIST_IGNORE_SPACE
-#setopt HIST_IGNORE_DUPS
-#setopt interactivecomment
-
-setopt extendedglob
-unsetopt nomatch
-setopt histignoredups
-setopt pushdignoredups
 
 #no console beep
-setopt nobeep
 
 bindkey -v
 
