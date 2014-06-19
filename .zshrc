@@ -6,7 +6,6 @@ fi
 
 # {{{ Set additional options I like befond the zsh and prezto defaults
 setopt autocontinue
-setopt completealiases
 setopt dvorak
 setopt histreduceblanks
 setopt magicequalsubst
@@ -58,7 +57,7 @@ bindkey "$key_info[Control]E" edit-command-line
 # {{{ Extra bindings
 bindkey "$key_info[Control]R" transpose-words
 
-# http://unix.stackexchange.com/questions/10825/remember-a-half-typed-command-while-i-check-something/11982#11982 
+# http://unix.stackexchange.com/questions/10825/remember-a-half-typed-command-while-i-check-something/11982#11982
 fancy-ctrl-z () {
   emulate -LR zsh
   if [[ $#BUFFER -eq 0 ]]; then
@@ -499,11 +498,6 @@ case $HOSTNAME in
 		}
 		;;
 esac
-
-setopt no_complete_aliases
-
-
-# black red green yellow blue magenta cyan white
 
 merge_rpmnew () {
 	vim -d $1{,.rpmnew} && rm -i $1.rpmnew
