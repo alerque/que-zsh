@@ -4,7 +4,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 # }}}
 
-# {{{ Set additional options I like befond the zsh and prezto defaults
+# {{{ Set additional options I like beyond the zsh and prezto defaults
 setopt autocontinue
 setopt dvorak
 setopt histreduceblanks
