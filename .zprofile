@@ -38,13 +38,14 @@ typeset -gU cdpath fpath mailpath path
 
 # Set the the list of directories that cd searches.
 cdpath=(
-  $cdpath
-  ~/
-  ~/projects
-  ~/projects/websites
-  ~/projects/systems
-  ~/projects/ipk
-  ~/scratch
+	$cdpath
+	~/
+	~/projects
+	~/projects/websites
+	~/projects/systems
+	~/projects/ipk
+	~/scratch
+	/run/media/caleb
 )
 
 # Set the list of directories that Zsh searches for programs.
