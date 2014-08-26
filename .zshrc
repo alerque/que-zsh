@@ -18,6 +18,7 @@ unsetopt beep
 unsetopt histbeep
 unsetopt listbeep
 unsetopt nomatch
+unsetopt histverify
 # }}}
 
 # {{{ Source Powerline
