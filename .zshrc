@@ -77,6 +77,7 @@ bindkey '^Z' fancy-ctrl-z
 alias mkiso='mkisofs -J -r -joliet-long -o'
 alias poldek="poldek --cachedir=$HOME/tmp/poldek-cache-$USER-$HOSTNAME"
 alias grep="grep --exclude-dir=.git --exclude=*~ --exclude=*.swp"
+alias rdesktop="rdesktop -k en-dv"
 # }}}
 
 # {{{ Default argument functions
