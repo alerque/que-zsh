@@ -45,7 +45,7 @@ esac
 #bindkey -M viins "$key_info[Control]J" history-substring-search-down
 
 # {{{ These doesn't get set right on some of my systems
-export HOSTNAME=${HOSTNAME:=$(hostname -s)}
+export HOSTNAME=${HOSTNAME:=${$(hostname)%%\.*}}
 umask 022
 # }}}
 
