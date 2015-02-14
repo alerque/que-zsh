@@ -162,20 +162,27 @@ command -v yaourt > /dev/null && {
 # }}}
 
 # {{{ Path fixes (and system specific hacks)
+
 function addtopath () {
 	[ -d $1 ] && path=($path $1)
 }
+
 addtopath /usr/texbin
 addtopath ~/projects/android/sdk/tools
 addtopath /usr/local/apache-ant-1.6.5/bin
 addtopath /opt/android-sdk/platform-tools
 addtopath /opt/android-sdk/tools
 addtopath ~/projects/liturji_aletleri/bin
+
 if [ -d ~/.ec2/ec2-api-tools ]; then
 	export ec2_home=~/.ec2/ec2-api-tools
 	export libdir=$ec2_home/lib
 	addtopath $ec2_home/bin
 fi
+
+# PHP Composer puts various per-user things here (e.g. drush)
+addtopath ~/.composer/vendor/bin/
+
 # }}}
 
 # {{{ Include encrypted stuff in another repo
