@@ -100,6 +100,7 @@ alias se='sudoedit'
 alias h="vcsh"
 alias lv="ls -al $lscolor|less"
 alias md2pdf="pandoc --latex-engine=xelatex -t latex"
+alias gcd="cd $(git getroot)"
 
 if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
 	alias v="mvim --remote-tab-silent"
