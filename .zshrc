@@ -203,6 +203,10 @@ camelion|iguana|basilisk) local hostcolor=yellow ;;
 esac
 # }}}
 
+# {{{ Include FZF magic
+alias fzf='fzf-tmux'
+source /etc/profile.d/fzf.zsh
+
 # Skip old configs for now
 return
 
