@@ -589,4 +589,4 @@ export KEYTIMEOUT=1
 # }}}
 
 #~caleb/bin/knockknock.zsh
-# vim: ftm=marker
+# vim: foldmethod=marker
