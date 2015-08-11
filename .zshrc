@@ -165,6 +165,14 @@ command -v yaourt > /dev/null && {
 sds () {
 	{ asd preview ; psd preview } | grep -E '(manage|size|psname):'
 }
+serve () {
+	: ${1:=./}
+	srv=/srv/http
+	test -d $srv || return 1
+	mount | grep -q $srv && sudo umount $srv
+	sudo mount --bind $1 $srv
+	sudo systemctl restart httpd.service
+}
 # }}}
 
 # {{{ Path fixes (and system specific hacks)
