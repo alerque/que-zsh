@@ -104,10 +104,14 @@ alias gcd="cd $(git getroot)"
 
 if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
 	alias v="mvim --remote-tab-silent"
-elif [[ -n "$DESKTOP_SESSION" ]]; then
-	alias v="gvim -p --remote-tab-silent"
-elif [[ -n "$VISUAL" ]]; then
-	alias v=$VISUAL
+#elif [[ -n "$DESKTOP_SESSION" ]]; then
+	#alias v="gvim -p --remote-tab-silent"
+#elif [[ -n "$VISUAL" ]]; then
+	#alias v=$VISUAL
+elif command -v fasd; then
+	alias v='f -e vim'
+elif command -v nvim; then
+	alias v=nvim
 elif command -v vim; then
 	alias v=vim
 else
@@ -270,6 +274,11 @@ fshow() {
   done
 }
 # }}}
+
+eval "$(fasd --init auto)"
+bindkey '^X^A' fasd-complete
+bindkey '^X^F' fasd-complete-f
+bindkey '^X^D' fasd-complete-d
 
 # Skip old configs for now
 return
