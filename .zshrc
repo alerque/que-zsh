@@ -108,11 +108,11 @@ if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
 	#alias v="gvim -p --remote-tab-silent"
 #elif [[ -n "$VISUAL" ]]; then
 	#alias v=$VISUAL
-elif command -v fasd; then
+elif command -v fasd >/dev/null; then
 	alias v='f -e vim'
-elif command -v nvim; then
+elif command -v nvim >/dev/null; then
 	alias v=nvim
-elif command -v vim; then
+elif command -v vim >/dev/null; then
 	alias v=vim
 else
 	alias v=vi
@@ -122,7 +122,7 @@ fi
 # {{{ Convenience functions
 auth () {
 	which keychain > /dev/null 2>&1 || return
-	eval $(keychain --eval -Q --quiet ~/.ssh/id_rsa ~/.ssh/github ~/.ssh/aur)
+	eval $(keychain --agents ssh,gpg --eval -Q --quiet ~/.ssh/id_rsa ~/.ssh/github ~/.ssh/aur 75267693)
 }
 fit() {
 	cat - | cut -b1-$COLUMNS
