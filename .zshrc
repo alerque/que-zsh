@@ -609,3 +609,6 @@ export KEYTIMEOUT=1
 
 #~caleb/bin/knockknock.zsh
 # vim: foldmethod=marker
+
+# added by travis gem
+[ -f /home/caleb/.travis/travis.sh ] && source /home/caleb/.travis/travis.sh
