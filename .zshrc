@@ -96,6 +96,7 @@ git () {
 # {{{ Personal lazy aliases
 alias ddstatus='sudo pkill -USR1 -x dd'
 alias sc='sudo systemctl'
+alias scu='systemctl --user'
 alias se='sudoedit'
 alias h="vcsh"
 alias lv="ls -al $lscolor|less"
