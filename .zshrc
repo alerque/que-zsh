@@ -462,6 +462,7 @@ zsh_get_picture_dirs () {
 }
 compctl -K zsh_get_picture_dirs pcd
 compctl -K zsh_complete_tmux_list tmux t tx
+compctl -g '~/.teamocil/*(:t:r)' teamocil
 
 compctl -g "*(-/) .*(-/)" cd rmdir
 compctl -u passwd be
