@@ -151,13 +151,13 @@ command -v yaourt > /dev/null && {
 	compdef yaourt='pacman'
 	function ya () {
 		case $1 in
-			-Q*|-Ss*)
+			-Q*|-Ss*|-Si*)
 				command yaourt "$@"
 				return $?
 				;;
 			*)
 				hash etckeeper && sudo etckeeper pre-install
-				command yaourt --noconfirm "$@"
+				command yaourt "$@"
 				retval=$?
 				hash etckeeper && sudo etckeeper post-install
 				return $retval
