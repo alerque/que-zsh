@@ -147,25 +147,8 @@ vcsh() {
 			;;
 	esac
 }
-command -v yaourt > /dev/null && {
-	compdef yaourt='pacman'
-	function ya () {
-		case $1 in
-			-Q*|-Ss*|-Si*)
-				command yaourt "$@"
-				return $?
-				;;
-			*)
-				hash etckeeper && sudo etckeeper pre-install
-				command yaourt "$@"
-				retval=$?
-				hash etckeeper && sudo etckeeper post-install
-				return $retval
-				;;
-		esac
-	}
-	compdef ya='yaourt'
-}
+compdef yaourt='pacman'
+alias ya='yaourt'
 # View the memory usage status of profile-sync-daemon and anything-sync-daemon
 sds () {
 	{ asd preview ; psd preview } | grep -E '(manage|size|psname):'
