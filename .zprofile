@@ -43,8 +43,7 @@ cdpath=(
 	~/projects
 	~/projects/websites
 	~/projects/systems
-	~/projects/ipk
-	~/scratch
+	~/projects/viachristus
 	/run/media/caleb
 )
 

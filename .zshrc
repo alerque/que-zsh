@@ -174,7 +174,9 @@ addtopath ~/projects/android/sdk/tools
 addtopath /usr/local/apache-ant-1.6.5/bin
 addtopath /opt/android-sdk/platform-tools
 addtopath /opt/android-sdk/tools
-addtopath ~/projects/liturji_aletleri/bin
+addtopath ~/projects/tprk/aletler/bin
+addtopath ~/projects/viachristus/avadanlik/bin
+addtopath ~/.cabal/bin
 
 if [ -d ~/.ec2/ec2-api-tools ]; then
 	export ec2_home=~/.ec2/ec2-api-tools
