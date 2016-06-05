@@ -122,8 +122,7 @@ fi
 
 # {{{ Convenience functions
 auth () {
-	which keychain > /dev/null 2>&1 || return
-	eval $(keychain --agents ssh,gpg --eval -Q --quiet ~/.ssh/id_rsa ~/.ssh/github ~/.ssh/aur 75267693)
+	eval $(keychain --agents ssh,gpg --eval -Q --quiet ~/.ssh/id_rsa ~/.ssh/github ~/.ssh/aur 75267693 B89B1E86)
 }
 fit() {
 	cat - | cut -b1-$COLUMNS
