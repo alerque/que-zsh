@@ -39,9 +39,10 @@ zstyle ':prezto:load' pmodule \
   'git' \
   'helper' \
   'pacman' \
-  'ssh' \
   'tmux' \
   'archive'
+
+  # 'ssh' \
 
 #TODO: enable for osx only
 #  'homebrew' \
@@ -124,7 +125,7 @@ zstyle ':prezto:module:prompt' theme 'que'
 #
 
 # Set the SSH identities to load into the agent.
-zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'github' 'aur'
+# zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'github' 'aur'
 
 #
 # Syntax Highlighting
