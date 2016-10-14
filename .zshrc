@@ -202,7 +202,8 @@ esac
 
 # {{{ Include FZF magic
 alias fzf='fzf-tmux'
-source /etc/profile.d/fzf.zsh
+source /usr/share/fzf/completion.zsh
+source /usr/share/fzf/key-bindings.zsh
 fs() {
   local session
   session=$(tmux list-sessions -F "#{session_name}" | \
