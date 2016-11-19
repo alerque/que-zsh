@@ -202,6 +202,7 @@ esac
 # }}}
 
 # {{{ Include FZF magic
+export FZF_DEFAULT_COMMAND='(git ls-all-trees || find . -path "*/\.*" -prune -o -type f -print -o -type l -print | sed s/^..//) 2> /dev/null'
 alias fzf='fzf-tmux'
 source /usr/share/fzf/completion.zsh
 source /usr/share/fzf/key-bindings.zsh
