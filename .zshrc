@@ -13,6 +13,7 @@ setopt markdirs
 setopt menucomplete
 setopt numericglobsort
 setopt shnullcmd
+setopt globcomplete
 unsetopt autoremoveslash
 unsetopt beep
 unsetopt histbeep
