@@ -126,7 +126,7 @@ auth () {
 	eval $(keychain --agents ssh,gpg --eval -Q --quiet ~/.ssh/id_rsa ~/.ssh/github ~/.ssh/aur 75267693 B89B1E86)
 }
 fit() {
-	cat - | cut -b1-$COLUMNS
+	cut -b1-$COLUMNS $@
 }
 lineTrim () {
 	bottom=$2
