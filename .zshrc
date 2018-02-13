@@ -103,6 +103,7 @@ alias h="vcsh"
 alias lv="ls -al $lscolor|less"
 alias md2pdf="pandoc --latex-engine=xelatex -t latex"
 alias gcd="cd $(git getroot)"
+alias gmv="noglob zmv -W"
 
 if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
 	alias v="mvim --remote-tab-silent"
