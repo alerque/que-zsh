@@ -179,6 +179,7 @@ addtopath ~/projects/tprk/aletler/bin
 addtopath ~/projects/viachristus/avadanlik/bin
 addtopath ~/.cabal/bin
 addtopath ~/node_modules/.bin
+addtopath ~/.local/bin
 
 if [ -d ~/.ec2/ec2-api-tools ]; then
 	export ec2_home=~/.ec2/ec2-api-tools
