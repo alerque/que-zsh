@@ -149,7 +149,6 @@ vcsh() {
 	esac
 }
 compdef yaourt='pacman'
-alias ya='yaourt'
 # View the memory usage status of profile-sync-daemon and anything-sync-daemon
 sds () {
 	{ asd preview ; psd preview } | grep -E '(manage|size|psname):'
