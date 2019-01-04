@@ -149,7 +149,7 @@ vcsh() {
 			;;
 	esac
 }
-compdef yaourt='pacman'
+
 # View the memory usage status of profile-sync-daemon and anything-sync-daemon
 sds () {
 	{ asd preview ; psd preview } | grep -E '(manage|size|psname):'
@@ -251,6 +251,9 @@ eval "$(fasd --init auto)"
 bindkey '^X^A' fasd-complete
 bindkey '^X^F' fasd-complete-f
 bindkey '^X^D' fasd-complete-d
+
+# Setup completion for remake
+compdef _make remake
 
 # Skip old configs for now
 return
