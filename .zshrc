@@ -254,6 +254,7 @@ bindkey '^X^D' fasd-complete-d
 
 # Setup completion for remake
 compdef _make remake
+alias make='remake'
 
 # Skip old configs for now
 return
