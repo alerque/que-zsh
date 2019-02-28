@@ -125,7 +125,7 @@ fi
 
 # {{{ Convenience functions
 auth () {
-	eval $(keychain --agents ssh,gpg --eval -Q --quiet ~/.ssh/id_rsa ~/.ssh/github ~/.ssh/aur 75267693 B89B1E86)
+	eval $(~/bin/que-auth.zsh)
 }
 fit() {
 	cut -b1-$COLUMNS $@
