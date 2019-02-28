@@ -2,9 +2,9 @@
 
 keychain \
 	--agents gpg,ssh \
+	--inherit any \
 	--eval \
 	--quick \
-	--gpg2 \
 	--systemd \
 	--quiet \
 	caleb \
