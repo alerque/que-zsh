@@ -99,12 +99,14 @@ alias ddstatus='sudo pkill -USR1 -x dd'
 alias sc='sudo -E systemctl'
 alias scu='systemctl --user'
 alias jc='journalctl'
+alias jcu='journalctl --user'
 alias se='sudoedit'
 alias h="vcsh"
 alias lv="ls -al $lscolor|less"
 alias md2pdf="pandoc --latex-engine=xelatex -t latex"
 alias gcd="cd $(git getroot)"
 alias gmv="noglob zmv -W"
+alias add="paste -sd+ - | bc"
 
 if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
 	alias v="mvim --remote-tab-silent"
@@ -479,7 +481,8 @@ alias l="ls -al $lscolor"
 alias ls="ls -BF $lscolor"
 alias la="ls -a $lscolor"
 alias br='sudo -s'
-alias uh="sudo /usr/local/bin/triggers/update_host.zsh"
+alias sort="sort -h"
+alias dig="dig +noall +answer"
 
 # Convenience functions
 alias svndiff="svn diff -x -b | colordiff"
