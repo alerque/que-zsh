@@ -588,5 +588,7 @@ export KEYTIMEOUT=1
 #~caleb/bin/knockknock.zsh
 # vim: foldmethod=marker
 
+export GPG_TTY=$(tty)
+
 # added by travis gem
 [ -f /home/caleb/.travis/travis.sh ] && source /home/caleb/.travis/travis.sh
