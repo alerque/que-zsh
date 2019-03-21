@@ -177,6 +177,7 @@ addtopath ~/projects/android/sdk/tools
 addtopath /usr/local/apache-ant-1.6.5/bin
 addtopath /opt/android-sdk/platform-tools
 addtopath /opt/android-sdk/tools
+addtopath $(python -c "import site; print(site.getsitepackages()[0]+'/bin')")
 addtopath ~/projects/tprk/aletler/bin
 addtopath ~/projects/viachristus/avadanlik/bin
 addtopath ~/.cabal/bin
