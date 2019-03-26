@@ -100,14 +100,8 @@ if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
 	#alias v="gvim -p --remote-tab-silent"
 #elif [[ -n "$VISUAL" ]]; then
 	#alias v=$VISUAL
-elif command -v fasd >/dev/null; then
-	alias v='f -e vim'
-elif command -v nvim >/dev/null; then
-	alias v=nvim
-elif command -v vim >/dev/null; then
-	alias v=vim
 else
-	alias v=vi
+	alias v='f -e nvim'
 fi
 # }}}
 
