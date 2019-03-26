@@ -56,6 +56,8 @@ zle -N edit-command-line
 bindkey "$key_info[Control]E" edit-command-line
 # }}}
 
+bindkey "$key_info[Right]" autosuggest-accept
+
 # {{{ Extra bindings
 bindkey "$key_info[Control]R" transpose-words
 

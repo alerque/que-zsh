@@ -40,6 +40,7 @@ zstyle ':prezto:load' pmodule \
   'helper' \
   'pacman' \
   'tmux' \
+  'autosuggestions'\
   'archive'
 
   # 'ssh' \
@@ -47,6 +48,8 @@ zstyle ':prezto:load' pmodule \
 #TODO: enable for osx only
 #  'homebrew' \
 #  'osx' \
+
+zstyle ':prezto:module:autosuggestions:color' found 'fg=052'
 
 #
 # Editor
