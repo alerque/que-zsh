@@ -81,19 +81,6 @@ alias grep="grep --no-messages --exclude-dir=.git --exclude=*~ --exclude=*.swp"
 alias rdesktop="rdesktop -k en-dv"
 # }}}
 
-# {{{ Default argument functions
-git () {
-	case "$PWD"; in
-		$HOME/rpm/*)
-			command git -c user.email=$USER@pld-linux.org "$@"
-			;;
-		*)
-			command git "$@"
-			;;
-	esac
-}
-# }}}
-
 # {{{ Personal lazy aliases
 alias ddstatus='sudo pkill -USR1 -x dd'
 alias sc='sudo -E systemctl'
@@ -104,7 +91,6 @@ alias se='sudoedit'
 alias h="vcsh"
 alias lv="ls -al $lscolor|less"
 alias md2pdf="pandoc --latex-engine=xelatex -t latex"
-alias gcd="cd $(git getroot)"
 alias gmv="noglob zmv -W"
 alias add="paste -sd+ - | bc"
 
@@ -265,8 +251,6 @@ return
 # {{{ -- Old unrefactored bits
 
 # Enable the vcs_info module so we can make PROMPT VCS aware
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git svn
 
 pcd () {
 	d1="$PICTUREDIR/$1"
@@ -329,7 +313,6 @@ preexec() {
 }
 
 precmd () {
-	vcs_info
 	if [ -n "$TMUX_PANE" ]; then
 		print -Pn "k \\"
 	fi
@@ -357,18 +340,6 @@ zle -N zle-line-finish
 
 #RPROMPT='%F{black}%* ${vim_mode}'
 
-zstyle ':vcs_info:*' stagedstr 'M'
-zstyle ':vcs_info:*' unstagedstr 'M'
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' formats '%F{5}%s{%F{green}%b%F{5}} %F{yellow}%a%F{green}%c%F{red}%u%F{red}%m%f'
-zstyle ':vcs_info:*' actionformats '%F{5}%s{%F{green}%b%F{5}}-%a %F{yellow}%a%F{green}%c%F{red}%u%F{red}%m%f'
-zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
-+vi-git-untracked() {
-  if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
-    git status --porcelain | grep '??' &> /dev/null ; then
-    hook_com[unstaged]+='%F{1}?%f'
-  fi
-}
 
 local lastexitcode='%(?,%F{green}✓,%F{red}✗)%f'
 PROMPT='$lastexitcode %F{5}[%(0#,%F{red}%n,%F{blue}%n)%F{5}@%F{$hostcolor}%m%F{5}] %F{green}%~ %F{yellow}$VCSH_REPO_NAME ${vcs_info_msg_0_} %F{black}(%!)
@@ -484,12 +455,6 @@ alias la="ls -a $lscolor"
 alias br='sudo -s'
 alias sort="sort -h"
 alias dig="dig +noall +answer"
-
-# Convenience functions
-alias svndiff="svn diff -x -b | colordiff"
-alias cvsdiff="cvs diff -u | colordiff"
-alias gitdiff="git diff | colordiff"
-alias bzrdiff="bzr diff | colordiff"
 
 svneditlog () {
 	rev=$1
