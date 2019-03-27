@@ -41,8 +41,6 @@ cdpath=(
 	$cdpath
 	~/
 	~/projects
-	~/projects/websites
-	~/projects/systems
 	~/projects/ccm
 	~/projects/viachristus
 	/run/media/caleb
