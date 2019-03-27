@@ -387,11 +387,6 @@ zle -N zle-line-finish
 #RPROMPT='%F{black}%* ${vim_mode}'
 
 
-local lastexitcode='%(?,%F{green}✓,%F{red}✗)%f'
-PROMPT='$lastexitcode %F{5}[%(0#,%F{red}%n,%F{blue}%n)%F{5}@%F{$hostcolor}%m%F{5}] %F{green}%~ %F{yellow}$VCSH_REPO_NAME ${vcs_info_msg_0_} %F{black}(%!)
-${vim_mode}%# %f'
-RPROMPT='%F{black}%*'
-
 PICTUREDIR=/pictures
 THUMBDIR=/pictures/thumbs
 
