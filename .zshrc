@@ -148,6 +148,26 @@ alias md2pdf="pandoc --latex-engine=xelatex -t latex"
 alias gmv="noglob zmv -W"
 alias add="paste -sd+ - | bc"
 
+# Note these build on both zprezto's git alias's and my own git config
+alias gaf="git af"
+alias gap="git ap"
+alias gau="git au"
+alias gca="git ca"
+alias gcb="git cb"
+alias gce="git ce"
+alias gce="git ce"
+alias gcp="git cp"
+alias gd="git d"
+alias gdc="git dc"
+alias gdcs="git dcs"
+alias gds="git ds"
+alias gdw="git dw"
+alias gdws="git dws"
+alias gg="git g"
+alias gs="git s"
+alias gsc="git sc"
+alias gsw="git sw"
+
 if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
 	alias v="mvim --remote-tab-silent"
 #elif [[ -n "$DESKTOP_SESSION" ]]; then
