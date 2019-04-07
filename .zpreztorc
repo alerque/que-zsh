@@ -165,6 +165,8 @@ zstyle ':prezto:module:terminal:window-title' format '%m: %s'
 # Set the tab title format.
 zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
 
+zstyle ':prezto:module:tmux:session' name que
+
 #
 # Tmux
 #
