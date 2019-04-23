@@ -213,6 +213,10 @@ serve () {
 }
 # }}}
 
+function drivetemps () {
+	for drive in /dev/sd[a-z]; do sudo smartctl --all $drive | grep Temperature_Celsius; done
+}
+
 # {{{ Path fixes (and system specific hacks)
 
 function addtopath () {
@@ -305,6 +309,12 @@ bindkey '^X^D' fasd-complete-d
 # Setup completion for remake
 compdef _make remake
 alias make='remake'
+
+# Sometimes GPG can't find it's own nose
+export GPG_TTY=$(tty)
+
+# added by travis gem
+[ -f /home/caleb/.travis/travis.sh ] && source /home/caleb/.travis/travis.sh
 
 # Skip old configs for now
 return
@@ -436,15 +446,8 @@ case $HOSTNAME in
 		;;
 	*)
 		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
-		function drivetemps () {
-			for i in a b c d e; do sudo smartctl --all /dev/sd$i | grep temperature_celsius; done
-		}
 		;;
 esac
-
-merge_rpmnew () {
-	vim -d $1{,.rpmnew} && rm -i $1.rpmnew
-}
 
 accept-line() { prev_mode=$KEYMAP; zle .accept-line }
 zle-line-init() { zle -K ${prev_mode:-viins} }
@@ -455,10 +458,4 @@ export KEYTIMEOUT=1
 
 # }}}
 
-#~caleb/bin/knockknock.zsh
 # vim: foldmethod=marker
-
-export GPG_TTY=$(tty)
-
-# added by travis gem
-[ -f /home/caleb/.travis/travis.sh ] && source /home/caleb/.travis/travis.sh
