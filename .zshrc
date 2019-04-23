@@ -87,8 +87,8 @@ esac
 
 # Add extra bindings for modules loaded by zprezto
 # (currently conflicting with tmux/vim split navigation, using cmd mode anyway)
-#bindkey -M viins "$key_info[Control]K" history-substring-search-up
-#bindkey -M viins "$key_info[Control]J" history-substring-search-down
+#bindkey -M viins "^K" history-substring-search-up
+#bindkey -M viins "^J" history-substring-search-down
 
 # {{{ These doesn't get set right on some of my systems
 export HOSTNAME=${HOSTNAME:=${$(hostname)%%\.*}}
@@ -98,13 +98,14 @@ umask 022
 # {{{ Enable editing of current command in editor
 autoload -z edit-command-line
 zle -N edit-command-line
-bindkey "$key_info[Control]E" edit-command-line
+bindkey "^E" edit-command-line
 # }}}
 
-bindkey "$key_info[Right]" autosuggest-accept
+# bindkey "^ " autosuggest-accept
+# bindkey "^$key_info[Enter]" autosuggest-accept
 
 # {{{ Extra bindings
-bindkey "$key_info[Control]R" transpose-words
+bindkey "^F" transpose-words
 
 # http://unix.stackexchange.com/questions/10825/remember-a-half-typed-command-while-i-check-something/11982#11982
 fancy-ctrl-z () {
