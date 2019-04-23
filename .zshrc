@@ -74,13 +74,6 @@ unsetopt nomatch
 unsetopt histverify
 # }}}
 
-# {{{ Source Powerline
-# ...or not
-#if [[ -s /usr/share/zsh/site-contrib/powerline.zsh ]]; then
-  #source /usr/share/zsh/site-contrib/powerline.zsh
-#fi
-# }}}
-
 # {{{ OS specific options for later re-use
 case $(uname -s) in
 	Darwin)
@@ -318,8 +311,6 @@ return
 
 # {{{ -- Old unrefactored bits
 
-# Enable the vcs_info module so we can make PROMPT VCS aware
-
 pcd () {
 	d1="$PICTUREDIR/$1"
 	d2="$PICTUREDIR/`echo $1 | perl -pne 's/^\d* //g'`"
@@ -372,29 +363,6 @@ unset MAIL MAILCHECK MAILPATH
 HISTSIZE=50000
 SAVEHIST=50000
 
-preexec() {
-	# Give tmux some info on what is running in the shell before we go off and do it
-	if [ -n "$TMUX_PANE" ]; then
-		cmd=${2[(w)1]}
-		print -Pn "k$cmd\\"
-	fi
-}
-
-precmd () {
-	if [ -n "$TMUX_PANE" ]; then
-		print -Pn "k \\"
-	fi
-	case $TERM in
-		xterm*)
-			print -Pn "]0;%m"
-		;;
-	esac
-}
-
-vim_ins_mode="%F{green}"
-vim_cmd_mode="%F{white}"
-vim_mode=$vim_ins_mode
-
 function zle-keymap-select {
 	vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
 	zle reset-prompt
@@ -406,50 +374,8 @@ function zle-line-finish {
 }
 zle -N zle-line-finish
 
-#RPROMPT='%F{black}%* ${vim_mode}'
-
-
 PICTUREDIR=/pictures
 THUMBDIR=/pictures/thumbs
-
-# Key binding method copied from https://wiki.archlinux.org/index.php/Zsh#Key_bindings
-typeset -A key
-
-key[Home]=${terminfo[khome]}
-
-key[End]=${terminfo[kend]}
-key[Insert]=${terminfo[kich1]}
-key[Delete]=${terminfo[kdch1]}
-key[Up]=${terminfo[kcuu1]}
-key[Down]=${terminfo[kcud1]}
-key[Left]=${terminfo[kcub1]}
-key[Right]=${terminfo[kcuf1]}
-key[PageUp]=${terminfo[kpp]}
-key[PageDown]=${terminfo[knp]}
-
-[[ -n "${key[Home]}"    ]]  && bindkey  "${key[Home]}"    beginning-of-line
-[[ -n "${key[End]}"     ]]  && bindkey  "${key[End]}"     end-of-line
-[[ -n "${key[Insert]}"  ]]  && bindkey  "${key[Insert]}"  overwrite-mode
-[[ -n "${key[Delete]}"  ]]  && bindkey  "${key[Delete]}"  delete-char
-[[ -n "${key[Up]}"      ]]  && bindkey  "${key[Up]}"      up-line-or-history
-[[ -n "${key[Down]}"    ]]  && bindkey  "${key[Down]}"    down-line-or-history
-[[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
-[[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
-[[ -n "${key[PageUp]}"   ]]  && bindkey  "${key[PageUp]}"    history-beginning-search-backward
-[[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}"  history-beginning-search-forward
-
-# Finally, make sure the terminal is in application mode, when zle is
-# active. Only then are the values from $terminfo valid.
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
-    function zle-line-init () {
-        printf '%s' "${terminfo[smkx]}"
-    }
-    function zle-line-finish () {
-        printf '%s' "${terminfo[rmkx]}"
-    }
-    zle -N zle-line-init
-    zle -N zle-line-finish
-fi
 
 ## COMPLETION ##
 zsh_complete_tmux_list () {
@@ -484,102 +410,17 @@ compctl -g "*.tgz *.tar.gz *.rpm" + -g "*(/) .*(/)" rpmbuild
 compctl -g "*.deb *.rpm *.tgz" + -g "*(-/) .*(-/)" alien
 compctl -g "*.exe *.Exe *.EXE" + -g "*(-/) .*(-/)" wine
 
-t () {
-	print -Pn "]0;%m:$1"
-	tmux attach -d -t $1 || tmux new -s $1
-}
-
-ts () {
-	print -Pn "]0;%m:$1"
-	tmux attach -t $1
-}
-
-tx () {
-	print -Pn "]0;%m:$1"
-	old_sessions=$(tmux ls 2>/dev/null | egrep "^[0-9]{14}.*[0-9]+\)$" | cut -f 1 -d:)
-	for old_session_id in $old_sessions; do
-		tmux kill-session -t $old_session_id
-	done
-	session_id=$(date +%Y%m%d%H%M%S)
-	tmux new-session -d -t $1 -s $session_id
-	tmux attach-session -t $session_id
-	tmux kill-session -t $session_id
-}
-
 trim() {
 	echo $1
 }
 
 # Typing convenience aliases
-alias tl='tmux ls | cut -d: -f1 | sort'
 alias l="ls -al $lscolor"
 alias ls="ls -BF $lscolor"
 alias la="ls -a $lscolor"
 alias br='sudo -s'
 alias sort="sort -h"
 alias dig="dig +noall +answer"
-
-svneditlog () {
-	rev=$1
-	if ! echo $rev | pcregrep '^[0-9]+$'; then
-		echo "Invalid usage. svneditlog REV"
-		return
-	fi
-	svn info | grep ^URL: | awk '{print $2}' | read url
-	svn propedit -r $rev --revprop svn:log $url
-}
-
-svnlist () {
-	if [ -z "$2" ]; then
-		case $1 in
-			clobered)
-				svn status | grep '^~' | cut -c9-
-				;;
-			missing)
-				svn status | grep '^\!' | cut -c9-
-				;;
-			unknown)
-				svn status | grep '^\?' | cut -c9-
-				;;
-			conflicted)
-				svn status | grep '^C' | cut -c9-
-				;;
-		esac
-	else
-		case $2 in
-			add)
-				$0 unknown | xargs -iX svn add "X"
-				;;
-			del)
-				$0 missing | xargs -iX svn del "X"
-				;;
-			revert) $0 conflicted | xargs -iX svn revert "X"
-				;;
-			resolved) $0 conflicted | xargs -iX svn resolved "X"
-				;;
-			unclober)
-				mkdir _tmp
-				$0 clobered | while read item; do
-					mv "$item" _tmp
-					svn del "$item"
-				done
-				svn ci -m "Unclobering files. (removing old)"
-				mv _tmp/* .
-				rmdir _tmp
-				$0 unknown add
-				svn ci -m "Unclobering files. (adding new)"
-				;;
-		esac
-	fi
-}
-compctl -x 'p[1]' -k '(missing unknown conflicted clobered)' - 'p[2]' -k '(add del revert resolved)' -- svnlist
-
-pharmacyadmin () {
-	host=$1
-	ssh -f -L 7447:$host:5900 pharmacy sleep 5
-	vncviewer localhost::7447 -encodings tight -bgr233 -passwd ~/.vnc/pharmacy
-}
-compctl -x 'p[1]' -k '(breakroom office1 office2 pharm2 pharm3 pharm5 workstation et et2 unknown pos2 pos3 posserver cl)' -- pharmacyadmin
 
 case $HOSTNAME in
 	leylek)
