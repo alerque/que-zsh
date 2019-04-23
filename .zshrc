@@ -370,10 +370,6 @@ thumbs () {
 		done
 }
 
-unset MAIL MAILCHECK MAILPATH
-HISTSIZE=50000
-SAVEHIST=50000
-
 function zle-keymap-select {
 	vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
 	zle reset-prompt
@@ -432,23 +428,6 @@ alias la="ls -a $lscolor"
 alias br='sudo -s'
 alias sort="sort -h"
 alias dig="dig +noall +answer"
-
-case $HOSTNAME in
-	leylek)
-		;;
-	lemur)
-		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
-		alias soundceptor='pacat -r -d alsa_output.pci-0000_00_14.2.analog-surround-50.monitor | sox -t raw -r 44100 -s -l -b 16 -c 2 - "output.wav"'
-		;;
-	pars)
-		alias mplayer="mplayer -monitoraspect 3/4"
-		alias burn='sudo cdrecord -v dev=/dev/hda driveropts=burnfree'
-		alias dvdburn='dvdrecord -v dev=/dev/hda driveropts=burnfree'
-		;;
-	*)
-		alias burn='cdrecord -v dev=/dev/sr0 driveropts=burnfree'
-		;;
-esac
 
 accept-line() { prev_mode=$KEYMAP; zle .accept-line }
 zle-line-init() { zle -K ${prev_mode:-viins} }
