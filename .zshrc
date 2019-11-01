@@ -162,6 +162,10 @@ alias gs="git s"
 alias gsc="git sc"
 alias gsw="git sw"
 
+function tigl () {
+	tig $(git branch --format='%(refname:short)') $@
+}
+
 if [[ $TERM_PROGRAM == "iTerm.app" ]]; then
 	alias v="mvim --remote-tab-silent"
 #elif [[ -n "$DESKTOP_SESSION" ]]; then
