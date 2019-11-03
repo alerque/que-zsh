@@ -426,12 +426,18 @@ trim() {
 }
 
 # Typing convenience aliases
-alias l="ls -al $lscolor"
-alias ls="ls -BF $lscolor"
-alias la="ls -a $lscolor"
+alias l="exa -al $lscolor"
+alias ls="exa -BF $lscolor"
+alias la="exa -a $lscolor"
 alias br='sudo -s'
 alias sort="sort -h"
 alias dig="dig +noall +answer"
+
+# Replace default apps with smart alternatives
+alias cat="bat"
+alias ls="exa"
+
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 accept-line() { prev_mode=$KEYMAP; zle .accept-line }
 zle-line-init() { zle -K ${prev_mode:-viins} }
