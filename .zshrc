@@ -269,6 +269,11 @@ camelion|iguana|basilisk) local hostcolor=yellow ;;
 esac
 # }}}
 
+# {{{ git-extras package doesn't ship with proper system level zsh completions,
+# so we copy their config file sample into our own repo and source it...
+source ~/.config/git-extras-completion.zsh
+#}}}
+
 # {{{ Include FZF magic
 export FZF_DEFAULT_COMMAND='(git ls-all-trees || find . -path "*/\.*" -prune -o -type f -print -o -type l -print | sed s/^..//) 2> /dev/null'
 alias fzf='fzf-tmux'
