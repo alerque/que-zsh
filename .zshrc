@@ -1,4 +1,8 @@
-source /usr/share/fonts/awesome-terminal-fonts/fontawesome-regular.sh
+sourceifexists () {
+	[[ -f "$1" ]] && source "$1"
+}
+
+sourceifexists /usr/share/fonts/awesome-terminal-fonts/fontawesome-regular.sh
 typeset -g POWERLEVEL9K_MODE=awesome-fontconfig
 typeset -g POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 
@@ -190,9 +194,6 @@ lineTrim () {
 	head -n $bottom | tail -n $top
 }
 
-sourceifexists () {
-	[ -f "$1" ] && source "$1"
-}
 vcsh() {
 	case $1; in
 		list-untracked)
