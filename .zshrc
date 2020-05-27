@@ -181,13 +181,19 @@ fi
 auth () {
 	eval $(~/bin/que-auth.zsh)
 }
+
 fit() {
 	cut -b1-$COLUMNS $@
 }
+
 lineTrim () {
 	bottom=$2
 	let top=$bottom-$1+1
 	head -n $bottom | tail -n $top
+}
+
+trim() {
+	echo $1
 }
 
 vcsh() {
@@ -428,10 +434,6 @@ compctl -g "*.rpm" + -g "*(-/) .*(-/)" rpm2cpio rpm
 compctl -g "*.tgz *.tar.gz *.rpm" + -g "*(/) .*(/)" rpmbuild
 compctl -g "*.deb *.rpm *.tgz" + -g "*(-/) .*(-/)" alien
 compctl -g "*.exe *.Exe *.EXE" + -g "*(-/) .*(-/)" wine
-
-trim() {
-	echo $1
-}
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
