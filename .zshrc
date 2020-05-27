@@ -332,6 +332,9 @@ alias make='remake'
 # Sometimes GPG can't find it's own nose
 export GPG_TTY=$(tty)
 
+# Use bat as man pager
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
 # added by travis gem
 [ -f /home/caleb/.travis/travis.sh ] && source /home/caleb/.travis/travis.sh
 
@@ -353,7 +356,6 @@ zle -N zle-line-finish
 
 ## COMPLETION ##
 
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 accept-line() { prev_mode=$KEYMAP; zle .accept-line }
 zle-line-init() { zle -K ${prev_mode:-viins} }
