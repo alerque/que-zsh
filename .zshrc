@@ -340,54 +340,6 @@ return
 
 # {{{ -- Old unrefactored bits
 
-pcd () {
-	d1="$PICTUREDIR/$1"
-	d2="$PICTUREDIR/`echo $1 | perl -pne 's/^\d* //g'`"
-	if [ -d "$d1" ]; then
-		cd "$d1"
-	else
-		if [ -d "$d2" ]; then
-			cd "$d2"
-		else
-			[ -n "$1" ] && n=$1 || n=1
-			/bin/ls $PICTUREDIR |
-				tail -n $n |
-				head -n 1 |
-				read dir
-			cd $PICTUREDIR/$dir
-		fi
-	fi
-}
-
-thumbs () {
-	pwd | read dir
-	x=0
-	y=0
-	/bin/ls |
-		pcregrep -i '(jpg|png|gif)$' |
-		while read img; do
-			if [ $x -gt 1280 ]; then
-				x=0
-				let y=$y+90
-			fi
-			if [ $y -gt 1000 ]; then
-				echo ERROR: out of screen space!
-				continue
-			fi
-			if [ "$1" = "full" ]; then
-				xv "$img" -bw 120 -geometry x90+$x+$y &
-			else
-				if [ ! -f "$THUMBDIR/$img" ]; then
-					convert -size 120 "$img" -resize 120 "$THUMBDIR/$img"
-					xv "$THUMBDIR/$img" -geometry x90+$x+$y &
-				else 
-					xv "$THUMBDIR/$img" -geometry x90+$x+$y &
-				fi
-			fi
-			let x=$x+120
-		done
-}
-
 function zle-keymap-select {
 	vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
 	zle reset-prompt
@@ -398,9 +350,6 @@ function zle-line-finish {
 	vim_mode=$vim_ins_mode
 }
 zle -N zle-line-finish
-
-PICTUREDIR=/pictures
-THUMBDIR=/pictures/thumbs
 
 ## COMPLETION ##
 zsh_complete_tmux_list () {
@@ -414,17 +363,6 @@ zsh_get_host_list () {
 zsh_get_user_list () {
 	reply=($(cut -d: -f1 /etc/passwd))
 }
-zsh_get_picture_dirs () {
-	IFS='^'
-	reply=(`/bin/ls $PICTUREDIR | wc -l | read count
-		/bin/ls $PICTUREDIR |
-		while read line; do
-			echo $count | perl -pne 's/^(\d)$/0\\1/' | read count
-			echo -n $count $line^
-			let count=$count-1
-		done`)
-}
-compctl -K zsh_get_picture_dirs pcd
 compctl -K zsh_complete_tmux_list tmux t tx
 compctl -g '~/.teamocil/*(:t:r)' teamocil
 
