@@ -1,5 +1,5 @@
 sourceifexists () {
-	[[ -f "$1" ]] && source "$1"
+	[[ -s "$1" ]] && source "$1"
 }
 
 sourceifexists /usr/share/fonts/awesome-terminal-fonts/fontawesome-regular.sh
@@ -55,9 +55,7 @@ typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
 typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%B%F{red}❯%F{yellow}❯%F{green}❯%f%b "
 
 # {{{ Source Prezto
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
+sourceifexists "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 # }}}
 
 # {{{ Set additional options I like beyond the zsh and prezto defaults
