@@ -352,26 +352,6 @@ function zle-line-finish {
 zle -N zle-line-finish
 
 ## COMPLETION ##
-zsh_complete_tmux_list () {
-	reply=($(tmux ls -F '#S' 2>-))
-}
-zsh_get_host_list () {
-	reply=(`dig axfr ouraynet.com @ns1.ouraynet.com|
-		pcregrep '^[a-z]\w*\.ouraynet\.com'|
-		cut -d\. -f1`)
-}
-zsh_get_user_list () {
-	reply=($(cut -d: -f1 /etc/passwd))
-}
-compctl -K zsh_complete_tmux_list tmux t tx
-compctl -g '~/.teamocil/*(:t:r)' teamocil
-
-compctl -g "*(-/) .*(-/)" cd rmdir
-compctl -u passwd be
-compctl -g "*.rpm" + -g "*(-/) .*(-/)" rpm2cpio rpm
-compctl -g "*.tgz *.tar.gz *.rpm" + -g "*(/) .*(/)" rpmbuild
-compctl -g "*.deb *.rpm *.tgz" + -g "*(-/) .*(-/)" alien
-compctl -g "*.exe *.Exe *.EXE" + -g "*(-/) .*(-/)" wine
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
