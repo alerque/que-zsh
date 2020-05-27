@@ -78,17 +78,6 @@ unsetopt nomatch
 unsetopt histverify
 # }}}
 
-# {{{ OS specific options for later re-use
-case $(uname -s) in
-	Darwin)
-		lscolor='-G'
-		;;
-	Linux)
-		lscolor='--color=always'
-		;;
-esac
-# }}}
-
 # Add extra bindings for modules loaded by zprezto
 # (currently conflicting with tmux/vim split navigation, using cmd mode anyway)
 #bindkey -M viins "^K" history-substring-search-up
@@ -139,12 +128,19 @@ alias sc='sudo -E systemctl'
 alias scu='systemctl --user'
 alias jc='journalctl'
 alias jcu='journalctl --user'
-alias se='sudoedit'
 alias h="vcsh"
-alias lv="ls -al $lscolor|less"
+alias lv="l | less"
 alias md2pdf="pandoc --latex-engine=xelatex -t latex"
 alias gmv="noglob zmv -W"
 alias add="paste -sd+ - | bc"
+alias l="exa -lBF"
+alias la="exa -alBF"
+alias sort="sort -h"
+alias dig="dig +noall +answer"
+
+# Replace default apps with smart alternatives
+alias cat="bat"
+alias ls="exa"
 
 # Note these build on both zprezto's git alias's and my own git config
 alias gaf="git af"
@@ -436,18 +432,6 @@ compctl -g "*.exe *.Exe *.EXE" + -g "*(-/) .*(-/)" wine
 trim() {
 	echo $1
 }
-
-# Typing convenience aliases
-alias l="exa -al $lscolor"
-alias ls="exa -BF $lscolor"
-alias la="exa -a $lscolor"
-alias br='sudo -s'
-alias sort="sort -h"
-alias dig="dig +noall +answer"
-
-# Replace default apps with smart alternatives
-alias cat="bat"
-alias ls="exa"
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
