@@ -338,32 +338,4 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # added by travis gem
 [ -f /home/caleb/.travis/travis.sh ] && source /home/caleb/.travis/travis.sh
 
-# Skip old configs for now
-return
-
-# {{{ -- Old unrefactored bits
-
-function zle-keymap-select {
-	vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
-	zle reset-prompt
-}
-zle -N zle-keymap-select
-
-function zle-line-finish {
-	vim_mode=$vim_ins_mode
-}
-zle -N zle-line-finish
-
-## COMPLETION ##
-
-
-accept-line() { prev_mode=$KEYMAP; zle .accept-line }
-zle-line-init() { zle -K ${prev_mode:-viins} }
-zle -N accept-line
-zle -N zle-line-init
-
-export KEYTIMEOUT=1
-
-# }}}
-
 # vim: foldmethod=marker
