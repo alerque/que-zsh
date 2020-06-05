@@ -325,7 +325,7 @@ bindkey '^X^D' fasd-complete-d
 
 # Setup completion for remake
 compdef _make remake
-alias make='remake'
+# alias make='remake'
 
 # Sometimes GPG can't find it's own nose
 export GPG_TTY=$(tty)
