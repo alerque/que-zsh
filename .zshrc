@@ -194,6 +194,10 @@ trim() {
 	echo $1
 }
 
+sourceiftext () {
+	grep -q "$1" -- "$2" && source "$2"
+}
+
 vcsh() {
 	case $1; in
 		list-untracked)
@@ -260,6 +264,8 @@ addtopath ~/.composer/vendor/bin/
 
 # {{{ Include encrypted stuff in another repo
 sourceifexists ~/.zshrc-private
+
+sourceiftext FIXER ~/.private/fixer_api.sh
 
 case $HOSTNAME in
 camelion|iguana|basilisk) local hostcolor=yellow ;;
