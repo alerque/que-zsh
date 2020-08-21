@@ -120,6 +120,10 @@ alias grep="grep --no-messages --exclude-dir=.git --exclude=*~ --exclude=*.swp"
 alias rdesktop="rdesktop -k en-dv"
 # }}}
 
+alias super-linter='docker run -e RUN_LOCAL=true -v "$(pwd):/tmp/lint" github/super-linter:latest'
+alias fontship-docker='docker run -it --volume "$(pwd):/data" --user "$(id -u):$(id -g)" theleagueof/fontship:latest'
+alias sile-docker='docker run -it --volume "$(pwd):/data" --user "$(id -u):$(id -g)" siletypesetter/sile:latest'
+
 # {{{ Personal lazy aliases
 alias ddstatus='sudo pkill -USR1 -x dd'
 alias sc='sudo -E systemctl'
