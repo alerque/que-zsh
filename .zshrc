@@ -243,27 +243,6 @@ function addtopath () {
 	[ -d $1 ] && path=($path $1)
 }
 
-function disp () {
-	case $HOSTNAME in
-		emircik)
-			case $1 in
-				4k)
-					# xrandr --output VIRTUAL1 --off --output eDP1 --primary --mode 3200x1800 --pos 0x0 --rotate normal --output DP1 --mode 1920x1080 --pos 3200x0 --rotate normal --output HDMI2 --off --output HDMI1 --off --output DP2 --off
-					;;
-				internal)
-					xrandr --output VIRTUAL1 --off --output eDP1 --primary --mode 3200x1800 --pos 0x0 --rotate normal --output DP1 --off --output HDMI2 --off --output HDMI1 --off --output DP2 --off
-					;;
-				projector)
-					# xrandr --output VIRTUAL1 --off --output eDP1 --primary --mode 3200x1800 --pos 0x0 --rotate normal --output DP1 --mode 1280x800 --pos 3200x0 --rotate normal --output HDMI2 --off --output HDMI1 --off --output DP2 --off
-					xrandr --output VIRTUAL1 --off --output eDP1 --primary --mode 3200x1800 --pos 0x0 --rotate normal --output DP1 --mode 1920x1080 --pos 3200x0 --rotate normal --output HDMI2 --off --output HDMI1 --off --output DP2 --off
-					bluetoothctl connect C8:84:47:01:E2:69
-					;;
-			esac
-			echo 'awesome.restart()' | awesome-client
-			;;
-	esac
-}
-
 addtopath /usr/texbin
 addtopath ~/projects/android/sdk/tools
 addtopath /usr/local/apache-ant-1.6.5/bin
