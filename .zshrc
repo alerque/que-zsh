@@ -2,6 +2,7 @@ sourceifexists () {
 	[[ -s "$1" ]] && source "$1"
 }
 
+eval "$(starship init zsh)"
 
 sourceifexists /usr/share/fonts/awesome-terminal-fonts/fontawesome-regular.sh
 
