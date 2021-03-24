@@ -1,4 +1,6 @@
 *
+!/.config
+!/.config/starship.toml
 !/.gitignore.d
 !/.gitignore.d/que-zsh
 !/.zlogin
