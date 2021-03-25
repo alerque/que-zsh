@@ -5,6 +5,8 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+export SSH_ASKPASS=ssh-askpass
+
 #
 # Browser
 #
