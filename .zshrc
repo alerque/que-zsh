@@ -124,6 +124,8 @@ alias super-linter='docker run -e RUN_LOCAL=true -v "$(pwd):/tmp/lint" github/su
 alias fontship-docker='docker run -it --volume "$(pwd):/data" --user "$(id -u):$(id -g)" theleagueof/fontship:latest'
 alias sile-docker='docker run -it --volume "$(pwd):/data" --user "$(id -u):$(id -g)" siletypesetter/sile:latest'
 
+alias wp="php7 $(which wp)"
+
 # {{{ Personal lazy aliases
 alias ddstatus='sudo pkill -USR1 -x dd'
 alias sc='sudo -E systemctl'
