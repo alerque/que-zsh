@@ -2,8 +2,6 @@ sourceifexists () {
 	[[ -s "$1" ]] && source "$1"
 }
 
-eval "$(starship init zsh)"
-
 sourceifexists /usr/share/fonts/awesome-terminal-fonts/fontawesome-regular.sh
 
 # {{{ Source Prezto
@@ -297,5 +295,7 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # added by travis gem
 [ -f /home/caleb/.travis/travis.sh ] && source /home/caleb/.travis/travis.sh
+
+eval "$(starship init zsh)"
 
 # vim: foldmethod=marker
