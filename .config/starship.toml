@@ -158,6 +158,8 @@ disabled = true
 
 [username]
 
+[vcsh]
+
 [vagrant]
 disabled = true
 
