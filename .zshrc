@@ -82,7 +82,7 @@ unsetopt histverify
 #bindkey -M viins "^J" history-substring-search-down
 
 # {{{ These doesn't get set right on some of my systems
-export HOSTNAME=${HOSTNAME:=${$(hostname)%%\.*}}
+export HOSTNAME=${HOSTNAME:=${$(cat /etc/hostname)%%\.*}}
 umask 022
 # }}}
 
