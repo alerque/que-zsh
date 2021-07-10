@@ -1,0 +1,4 @@
+--hidden
+--glob=!**/*.git
+--smart-case
+--sort=path

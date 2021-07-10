@@ -1,5 +1,6 @@
 *
-!/.gitignore.d
+!/.config/git-extras-completion.zsh
+!/.config/ripgreprc
 !/.gitignore.d/que-zsh
 !/.zlogin
 !/.zlogout

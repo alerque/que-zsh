@@ -361,4 +361,6 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # added by travis gem
 [ -f /home/caleb/.travis/travis.sh ] && source /home/caleb/.travis/travis.sh
 
+export RIPGREP_CONFIG_PATH=~/.config/ripgreprc
+
 # vim: foldmethod=marker
