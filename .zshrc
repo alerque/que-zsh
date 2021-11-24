@@ -280,9 +280,8 @@ camelion|iguana|basilisk) local hostcolor=yellow ;;
 esac
 # }}}
 
-# {{{ git-extras package doesn't ship with proper system level zsh completions,
-# so we copy their config file sample into our own repo and source it...
-source ~/.config/git-extras-completion.zsh
+# {{{ git-extras
+sourceifexists "/usr/share/doc/git-extras/git-extras-completion.zsh"
 #}}}
 
 # {{{ Include FZF magic
