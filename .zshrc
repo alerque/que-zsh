@@ -234,6 +234,10 @@ serve () {
 	sudo mount --bind $1 $srv
 	sudo systemctl restart httpd.service
 }
+ffref () {
+	sleep 0.25
+	xdotool key --window $(xdotool search --name "Mozilla Firefox" | head -1) F5
+}
 # }}}
 
 function drivetemps () {
