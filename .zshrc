@@ -365,4 +365,6 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 export RIPGREP_CONFIG_PATH=~/.config/ripgreprc
 
+export MAKEFLAGS="--jobs $(nproc)"
+
 # vim: foldmethod=marker
