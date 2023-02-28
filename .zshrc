@@ -164,6 +164,9 @@ alias gs="git s"
 alias gsc="git sc"
 alias gsw="git sw"
 
+# Remote Arch stuff
+alias db-update="ssh repos.archlinux.org /community/db-update"
+
 function tigl () {
 	tig $(git branch --format='%(refname:short)') $@
 }
