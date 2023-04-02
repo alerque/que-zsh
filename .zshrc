@@ -371,4 +371,6 @@ export RIPGREP_CONFIG_PATH=~/.config/ripgreprc
 
 export MAKEFLAGS="--jobs $(nproc)"
 
+eval "$(atuin init zsh)"
+
 # vim: foldmethod=marker
