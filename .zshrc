@@ -371,6 +371,6 @@ export RIPGREP_CONFIG_PATH=~/.config/ripgreprc
 
 export MAKEFLAGS="--jobs $(nproc)"
 
-eval "$(atuin init zsh)"
+eval "$(atuin init zsh --disable-up-arrow)"
 
 # vim: foldmethod=marker
