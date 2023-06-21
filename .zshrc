@@ -277,6 +277,7 @@ addtopath ~/.composer/vendor/bin/
 sourceifexists ~/.zshrc-private
 
 sourceiftext FIXER ~/.private/fixer_api.sh
+sourceiftext DEEPL ~/.private/deepl_api.sh
 
 case $HOSTNAME in
 camelion|iguana|basilisk) local hostcolor=yellow ;;
