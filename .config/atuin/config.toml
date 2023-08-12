@@ -1,4 +1,5 @@
 update_check = false
+workspaces = true
 style = "compact"
 inline_height = 30
 search_mode = "skim"
