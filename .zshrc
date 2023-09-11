@@ -350,11 +350,6 @@ rga-fzf() {
 
 # }}}
 
-eval "$(fasd --init auto)"
-bindkey '^X^A' fasd-complete
-bindkey '^X^F' fasd-complete-f
-bindkey '^X^D' fasd-complete-d
-
 # Setup completion for remake
 compdef _make remake
 # alias make='remake'
@@ -372,6 +367,10 @@ export RIPGREP_CONFIG_PATH=~/.config/ripgreprc
 
 export MAKEFLAGS="--jobs $(nproc)"
 
+compinit
+
 eval "$(atuin init zsh --disable-up-arrow)"
+
+eval "$(zoxide init zsh)"
 
 # vim: foldmethod=marker
