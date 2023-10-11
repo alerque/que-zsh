@@ -49,8 +49,6 @@ zstyle ':prezto:load' pmodule \
 #  'homebrew' \
 #  'osx' \
 
-zstyle ':prezto:module:autosuggestions:color' found 'fg=052'
-
 #
 # Editor
 #
