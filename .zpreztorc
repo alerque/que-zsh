@@ -34,7 +34,6 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'prompt' \
   'syntax-highlighting' \
-  'history-substring-search'\
   'command-not-found' \
   'git' \
   'helper' \
