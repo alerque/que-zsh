@@ -358,6 +358,7 @@ compdef _make remake
 export GPG_TTY=$(tty)
 
 # Use bat as man pager
+export MANROFFOPT='-c'
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # added by travis gem
