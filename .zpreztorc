@@ -71,6 +71,8 @@ zstyle ':prezto:module:git:log:medium' format '%C(bold)Commit:%C(reset) %C(yello
 zstyle ':prezto:module:git:log:oneline' format '%C(yellow)%h%C(reset) %s%C(auto)%d%C(reset)'
 zstyle ':prezto:module:git:log:brief' format '%C(yellow)%h%C(reset) %s%n%C(blue)(%ar by %an)%C(auto)%d%C(reset)'
 
+zstyle ':prezto:module:git:alias' skip 'yes'
+
 #
 # GNU Utility
 #
