@@ -32,7 +32,7 @@ unsetopt histverify
 #bindkey -M viins "^J" history-substring-search-down
 
 # {{{ These doesn't get set right on some of my systems
-export HOSTNAME=${HOSTNAME:=${$(hostname)%%\.*}}
+export HOSTNAME=${HOSTNAME:=${$(cat /etc/hostname)%%\.*}}
 umask 022
 # }}}
 
@@ -102,7 +102,7 @@ alias gca="git ca"
 alias gcb="git cb"
 alias gce="git ce"
 alias gce="git ce"
-alias gcp="git cp"
+alias gcp="git cherry-pick" # git-extras has a git-cp
 alias gd="git d"
 alias gdc="git dc"
 alias gdsc="git dsc"
@@ -113,6 +113,9 @@ alias gg="git g"
 alias gs="git s"
 alias gsc="git sc"
 alias gsw="git sw"
+
+# Remote Arch stuff
+alias db-update="ssh repos.archlinux.org /community/db-update"
 
 function tigl () {
 	tig $(git branch --format='%(refname:short)') $@
@@ -164,9 +167,9 @@ vcsh() {
 }
 
 docker-clean() {
-  docker ps --no-trunc -aqf "status=exited" | xargs docker rm
-  docker images --no-trunc -aqf "dangling=true" | xargs docker rmi
-  docker volume ls -qf "dangling=true" | xargs docker volume rm
+  docker ps --no-trunc -aqf "status=exited" | xargs -r docker rm
+  docker images --no-trunc -aqf "dangling=true" | xargs -r docker rmi
+  docker volume ls -qf "dangling=true" | xargs -r docker volume rm
 }
 
 # View the memory usage status of profile-sync-daemon and anything-sync-daemon
@@ -181,6 +184,10 @@ serve () {
 	sudo mount --bind $1 $srv
 	sudo systemctl restart httpd.service
 }
+ffref () {
+	sleep 0.25
+	xdotool key --window $(xdotool search --name "Mozilla Firefox" | head -1) F5
+}
 # }}}
 
 function drivetemps () {
@@ -193,14 +200,14 @@ function addtopath () {
 	[ -d $1 ] && path=($path $1)
 }
 
-addtopath /usr/texbin
-addtopath ~/projects/android/sdk/tools
-addtopath /usr/local/apache-ant-1.6.5/bin
-addtopath /opt/android-sdk/platform-tools
-addtopath /opt/android-sdk/tools
-addtopath $(python -c "import site; print(site.getsitepackages()[0]+'/bin')")
-addtopath ~/projects/tprk/aletler/bin
-addtopath ~/projects/viachristus/avadanlik/bin
+# addtopath /usr/texbin
+# addtopath ~/projects/android/sdk/tools
+# addtopath /usr/local/apache-ant-1.6.5/bin
+# addtopath /opt/android-sdk/platform-tools
+# addtopath /opt/android-sdk/tools
+# addtopath $(python -c "import site; print(site.getsitepackages()[0]+'/bin')")
+# addtopath ~/projects/ipk/ceviriler/katip/bin
+# addtopath ~/projects/viachristus/avadanlik/bin
 addtopath ~/.cabal/bin
 addtopath ~/node_modules/.bin
 addtopath ~/.local/bin
@@ -220,6 +227,7 @@ addtopath ~/.composer/vendor/bin/
 sourceifexists ~/.zshrc-private
 
 sourceiftext FIXER ~/.private/fixer_api.sh
+sourceiftext DEEPL ~/.private/deepl_api.sh
 
 case $HOSTNAME in
 camelion|iguana|basilisk) local hostcolor=yellow ;;
@@ -230,9 +238,8 @@ camelion|iguana|basilisk) local hostcolor=yellow ;;
 esac
 # }}}
 
-# {{{ git-extras package doesn't ship with proper system level zsh completions,
-# so we copy their config file sample into our own repo and source it...
-source ~/.config/git-extras-completion.zsh
+# {{{ git-extras
+sourceifexists "/usr/share/doc/git-extras/git-extras-completion.zsh"
 #}}}
 
 # {{{ Include FZF magic
@@ -276,12 +283,22 @@ fshow() {
     done < <(sed '1d;s/^[^a-z0-9]*//;/^$/d' <<< "$out" | awk '{print $1}')
   done
 }
-# }}}
 
-eval "$(fasd --init auto)"
-bindkey '^X^A' fasd-complete
-bindkey '^X^F' fasd-complete-f
-bindkey '^X^D' fasd-complete-d
+rga-fzf() {
+	RG_PREFIX="rga --files-with-matches"
+	local file
+	file="$(
+		FZF_DEFAULT_COMMAND="$RG_PREFIX '$1'" \
+			fzf --sort --preview="[[ ! -z {} ]] && rga --pretty --context 5 {q} {}" \
+				--phony -q "$1" \
+				--bind "change:reload:$RG_PREFIX {q}" \
+				--preview-window="70%:wrap"
+	)" &&
+	echo "opening $file" &&
+	xdg-open "$file"
+}
+
+# }}}
 
 # Setup completion for remake
 compdef _make remake
@@ -291,11 +308,22 @@ compdef _make remake
 export GPG_TTY=$(tty)
 
 # Use bat as man pager
+export MANROFFOPT='-c'
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # added by travis gem
 [ -f /home/caleb/.travis/travis.sh ] && source /home/caleb/.travis/travis.sh
 
+export RIPGREP_CONFIG_PATH=~/.config/ripgreprc
+
+export MAKEFLAGS="--jobs $(nproc)"
+
+compinit
+
 eval "$(starship init zsh)"
+
+eval "$(atuin init zsh --disable-up-arrow)"
+
+eval "$(zoxide init zsh)"
 
 # vim: foldmethod=marker

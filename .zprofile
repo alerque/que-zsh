@@ -5,6 +5,8 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+export SSH_ASKPASS=ssh-askpass
+
 #
 # Browser
 #
@@ -81,3 +83,7 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 if [[ ! -d "$TMPPREFIX" ]]; then
   mkdir -p "$TMPPREFIX"
 fi
+
+export GITLAB_HOST=gitlab.alerque.com
+
+eval $(systemctl --user show-environment | sed -nE '/^(SSH|GPG)/{s/^/export /;p}')

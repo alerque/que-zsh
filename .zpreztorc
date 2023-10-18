@@ -34,7 +34,6 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'prompt' \
   'syntax-highlighting' \
-  'history-substring-search'\
   'command-not-found' \
   'git' \
   'helper' \
@@ -48,8 +47,6 @@ zstyle ':prezto:load' pmodule \
 #TODO: enable for osx only
 #  'homebrew' \
 #  'osx' \
-
-zstyle ':prezto:module:autosuggestions:color' found 'fg=052'
 
 #
 # Editor

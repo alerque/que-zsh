@@ -1,0 +1,11 @@
+update_check = false
+workspaces = true
+style = "compact"
+# invert = true
+inline_height = 10
+search_mode = "skim"
+show_preview = true
+show_help = false
+filter_mode = "directory"
+filter_mode_shell_up_key_binding = "directory"
+exit_mode = "return-query"
