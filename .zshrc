@@ -164,6 +164,26 @@ alias gs="git s"
 alias gsc="git sc"
 alias gsw="git sw"
 
+# Stuff I found I use from zpresto now that I dropped it
+alias gbX='git branch --delete --force'
+alias gbx='git branch --delete'
+alias gcm='git commit --message'
+alias gco='git checkout'
+alias gfa='git fetch --all'
+alias gfr='git pull --rebase'
+alias gfra='git pull --rebase --autostash'
+alias gia='git add'
+alias giu='git add --update'
+alias gp='git push'
+alias gpc='git push --set-upstream origin "$(git-branch-current 2> /dev/null)"'
+alias gpf='git push --force-with-lease'
+alias gr='git rebase'
+alias gra='git rebase --abort'
+alias grc='git rebase --continue'
+alias gri='git rebase --interactive'
+alias grs='git rebase --skip'
+alias gws='git status --ignore-submodules=$_git_status_ignore_submodules --short'
+
 # Remote Arch stuff
 alias db-update="ssh repos.archlinux.org /community/db-update"
 
