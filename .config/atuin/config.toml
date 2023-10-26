@@ -9,3 +9,4 @@ show_help = false
 filter_mode = "directory"
 filter_mode_shell_up_key_binding = "directory"
 exit_mode = "return-query"
+enter_accept = true
