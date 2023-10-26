@@ -144,45 +144,8 @@ alias dig="dig +noall +answer"
 alias cat="bat"
 alias ls="exa"
 
-# Note these build on both zprezto's git alias's and my own git config
-alias gaf="git af"
-alias gap="git ap"
-alias gau="git au"
-alias gca="git ca"
-alias gcb="git cb"
-alias gce="git ce"
-alias gce="git ce"
-alias gcp="git cherry-pick" # git-extras has a git-cp
-alias gd="git d"
-alias gdc="git dc"
-alias gdsc="git dsc"
-alias gds="git ds"
-alias gdw="git dw"
-alias gdsw="git dsw"
-alias gg="git g"
-alias gs="git s"
-alias gsc="git sc"
-alias gsw="git sw"
-
-# Stuff I found I use from zpresto now that I dropped it
-alias gbX='git branch --delete --force'
-alias gbx='git branch --delete'
-alias gcm='git commit --message'
-alias gco='git checkout'
-alias gfa='git fetch --all'
-alias gfr='git pull --rebase'
-alias gfra='git pull --rebase --autostash'
-alias gia='git add'
-alias giu='git add --update'
-alias gp='git push'
-alias gpc='git push --set-upstream origin "$(git-branch-current 2> /dev/null)"'
-alias gpf='git push --force-with-lease'
-alias gr='git rebase'
-alias gra='git rebase --abort'
-alias grc='git rebase --continue'
-alias gri='git rebase --interactive'
-alias grs='git rebase --skip'
-alias gws='git status --ignore-submodules=$_git_status_ignore_submodules --short'
+# Note Git alias moved to .gitconfig [alias]
+alias g="git"
 
 # Remote Arch stuff
 alias db-update="ssh repos.archlinux.org /community/db-update"
