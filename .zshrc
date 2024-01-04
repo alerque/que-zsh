@@ -246,6 +246,8 @@ addtopath ~/node_modules/.bin
 addtopath ~/.local/bin
 addtopath ~/.cargo/bin
 
+sourceifexists /home/caleb/.opam/opam-init/init.zsh
+
 if [ -d ~/.ec2/ec2-api-tools ]; then
 	export ec2_home=~/.ec2/ec2-api-tools
 	export libdir=$ec2_home/lib
