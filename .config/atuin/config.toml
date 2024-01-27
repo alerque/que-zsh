@@ -10,3 +10,9 @@ filter_mode = "directory"
 filter_mode_shell_up_key_binding = "directory"
 exit_mode = "return-query"
 enter_accept = true
+
+[stats]
+common_subcommands = [
+	"git",
+	"g",
+]
