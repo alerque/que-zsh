@@ -12,6 +12,9 @@ exit_mode = "return-query"
 enter_accept = true
 keymap_mode = "vim-insert"
 
+[sync]
+records = true
+
 [stats]
 common_subcommands = [
 	"git",
