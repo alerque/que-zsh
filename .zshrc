@@ -135,14 +135,14 @@ alias lv="l | less"
 alias md2pdf="pandoc --latex-engine=xelatex -t latex"
 alias gmv="noglob zmv -W"
 alias add="paste -sd+ - | bc"
-alias l="exa -lBF"
-alias la="exa -alBF"
+alias l="eza -lBF"
+alias la="eza -alBF"
 alias sort="sort -h"
 alias dig="dig +noall +answer"
 
 # Replace default apps with smart alternatives
 alias cat="bat"
-alias ls="exa"
+alias ls="eza"
 
 # Note Git alias moved to .gitconfig [alias]
 alias g="git"
