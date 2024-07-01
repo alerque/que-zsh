@@ -6,7 +6,6 @@ $hostname\
 $directory\
 $git_branch\
 $git_status\
-[](fg:prev_bg)\
 $c\
 $elixir\
 $elm\
@@ -20,8 +19,8 @@ $nim\
 $rust\
 $scala\
 $docker_context\
-[ ](bg:none fg:prev_bg)\
-\n[❯](fg:red)[❯](fg:orange)[❯](fg:green) 
+[ ](bg:none fg:prev_bg)
+[❯](fg:red)[❯](fg:orange)[❯](fg:green) 
 """
 
 right_format = """
@@ -37,7 +36,7 @@ palette = 'que'
 [palettes.que]
 alert = 'red'
 success = 'green'
-dark_bg = '235'
+dark_bg = '#222222'
 dark_fg = '255'
 medium_bg =  '240'
 medium_fg =  '255'
@@ -100,46 +99,49 @@ format = '[$all_status$ahead_behind ]($style)'
 [c]
 symbol = " "
 style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
 
 [docker_context]
 symbol = " "
 style = "bg:#06969A"
-format = '[ $symbol $context ]($style) $path'
+format = '[]($style fg:prev_bg)[ $symbol $context ]($style) $path'
 
 [elixir]
 symbol = " "
 style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
 
 [elm]
 symbol = " "
 style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
 
 [golang]
 symbol = " "
 style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
 
 [gradle]
 style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
 
 [haskell]
 symbol = " "
 style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
 
 [nodejs]
 symbol = ""
 style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
 
 [rust]
 symbol = ""
 style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+
+[fill]
+symbol = ' '
 
 # prev_bg does not appear to work in right_format
 # https://github.com/starship/starship/issues/6062
