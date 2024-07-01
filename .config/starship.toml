@@ -1,13 +1,12 @@
 format = """
-[](#9A348E)\
 $os\
+$sudo\
 $username\
-[](bg:#DA627D fg:#9A348E)\
+$hostname\
 $directory\
-[](fg:#DA627D bg:#FCA17D)\
 $git_branch\
 $git_status\
-[](fg:#FCA17D bg:#86BBD8)\
+[](fg:prev_bg)\
 $c\
 $elixir\
 $elm\
@@ -20,35 +19,60 @@ $nodejs\
 $nim\
 $rust\
 $scala\
-[](fg:#86BBD8 bg:#06969A)\
 $docker_context\
-[](fg:#06969A bg:#33658A)\
-[ ](fg:#33658A)\
-\n Foo
+[ ](bg:none fg:prev_bg)\
+\n[❯](fg:red)[❯](fg:orange)[❯](fg:green) 
 """
 
 right_format = """
-[ ](fg:#33658A)\
+$status
 $cmd_duration
+$jobs
 """
 
 add_newline = false
+continuation_prompt = '[▶](fg:red)[▶](fg:orange)[▶](fg:green) '
+palette = 'que'
+
+[palettes.que]
+alert = 'red'
+success = 'green'
+dark_bg = '235'
+dark_fg = '255'
+medium_bg =  '240'
+medium_fg =  '255'
+light_bg =  '250'
+light_fg =  '0'
+dir_bg = '17'
+dir_fg = '255'
+git_bg = '147'
+git_fg = '218'
+vcsh_bg = '202'
+vcsh_fg = '234'
 
 [os]
-style = "bg:#9A348E"
+style = "bold bg:dark_bg fg:dark_fg"
+format = '[](bg:none fg:dark_bg)[$symbol]($style)'
 disabled = false
+
+[sudo]
+# disabled = false
 
 [username]
 show_always = true
-style_user = "bg:#9A348E"
-style_root = "bg:#9A348E"
+style_user = "bg:prev_bg fg:prev_fg"
+style_root = "bg:prev_bg fg:alert"
 format = '[$user ]($style)'
-disabled = false
+
+[hostname]
+ssh_only = false
+style = "bg:medium_bg fg:medium_fg"
+format = "[]($style fg:prev_bg)[ $ssh_symbol$hostname ]($style)"
 
 [directory]
-style = "bg:#DA627D"
-format = "[ $path ]($style)"
-truncation_length = 3
+style = "bg:dir_bg fg:dir_fg"
+format = "[]($style fg:prev_bg)[ $path ]($style)"
+truncation_length = 4
 truncation_symbol = "…/"
 
 # Here is how you can shorten some long paths by text replacement
@@ -63,6 +87,15 @@ truncation_symbol = "…/"
 # will not be replaced, because "Documents" was already substituted before.
 # So either put "Important Documents" before "Documents" or use the substituted version:
 # "Important 󰈙 " = " 󰈙 "
+
+[git_branch]
+symbol = ""
+style = "bg:git_bg fg:git_fg"
+format = '[]($style fg:prev_bg)[ $symbol $branch ]($style)'
+
+[git_status]
+style = "bg:git_bg fg:git_fg"
+format = '[$all_status$ahead_behind ]($style)'
 
 [c]
 symbol = " "
@@ -83,15 +116,6 @@ format = '[ $symbol ($version) ]($style)'
 symbol = " "
 style = "bg:#86BBD8"
 format = '[ $symbol ($version) ]($style)'
-
-[git_branch]
-symbol = ""
-style = "bg:#FCA17D"
-format = '[ $symbol $branch ]($style)'
-
-[git_status]
-style = "bg:#FCA17D"
-format = '[$all_status$ahead_behind ]($style)'
 
 [golang]
 symbol = " "
@@ -117,8 +141,22 @@ symbol = ""
 style = "bg:#86BBD8"
 format = '[ $symbol ($version) ]($style)'
 
+# prev_bg does not appear to work in right_format
+# https://github.com/starship/starship/issues/6062
+[status]
+pipestatus = true
+disabled = false
+success_symbol = '[✔]($style fg:success)'
+style = 'bg:dark_bg fg:alert'
+format = '[](fg:dark_bg)[$symbol$common_meaning$signal_name ]($style)'
+
 [cmd_duration]
 min_time = 0
-style = "bg:#33658A"
-format = '[ $duration ]($style)'
+style = "bg:medium_bg fg:medium_fg"
+format = '[]($style bg:dark_bg fg:medium_bg)[ $duration ]($style)'
 show_milliseconds = true
+
+[jobs]
+number_threshold = 1
+style = 'bold bg:light_bg fg:light_fg'
+format = '[]($style bg:medium_bg fg:light_bg)[$symbol$number ]($style)'
