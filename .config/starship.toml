@@ -1,10 +1,14 @@
+# format = '$all'
 format = """
 $os\
 $sudo\
 $username\
 $hostname\
 $directory\
+$vcsh\
+$git_state\
 $git_branch\
+$git_commit\
 $git_status\
 $c\
 $elixir\
@@ -37,17 +41,19 @@ palette = 'que'
 alert = 'red'
 success = 'green'
 dark_bg = '#222222'
-dark_fg = '255'
-medium_bg =  '240'
-medium_fg =  '255'
-light_bg =  '250'
-light_fg =  '0'
-dir_bg = '17'
-dir_fg = '255'
-git_bg = '147'
-git_fg = '218'
-vcsh_bg = '202'
-vcsh_fg = '234'
+dark_fg = '#FFFFFF'
+medium_bg =  '#666666'
+medium_fg =  '#000000'
+light_bg =  '#CCCCCC'
+light_fg =  '#000000'
+dir_bg = '#2222AA'
+dir_fg = '#FFFFFF'
+git_bg = '#5500CC'
+git_fg = '#FFFFFF'
+git_state_bg = '#CC66FF'
+git_state_fg = '#440000'
+vcsh_bg = '#DD5500'
+vcsh_fg = '#000000'
 
 [os]
 style = "bold bg:dark_bg fg:dark_fg"
@@ -87,10 +93,24 @@ truncation_symbol = "…/"
 # So either put "Important Documents" before "Documents" or use the substituted version:
 # "Important 󰈙 " = " 󰈙 "
 
+[vcsh]
+style = 'bg:vcsh_bg fg:vcsh_fg'
+format = '[]($style fg:prev_bg)[ $repo ]($style)'
+
+[git_state]
+style = "bg:git_state_bg fg:git_state_fg"
+format = '[]($style fg:prev_bg)[ $state( $progress_current/$progress_total) ]($style)'
+
 [git_branch]
 symbol = ""
 style = "bg:git_bg fg:git_fg"
 format = '[]($style fg:prev_bg)[ $symbol $branch ]($style)'
+
+[git_commit]
+style = "bg:git_bg fg:git_fg"
+tag_symbol = ' '
+format = '[$hash$tag ]($style)'
+tag_disabled = false
 
 [git_status]
 style = "bg:git_bg fg:git_fg"
@@ -100,45 +120,54 @@ format = '[$all_status$ahead_behind ]($style)'
 symbol = " "
 style = "bg:#86BBD8"
 format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
 
 [docker_context]
 symbol = " "
 style = "bg:#06969A"
 format = '[]($style fg:prev_bg)[ $symbol $context ]($style) $path'
+disabled = true
 
 [elixir]
 symbol = " "
 style = "bg:#86BBD8"
 format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
 
 [elm]
 symbol = " "
 style = "bg:#86BBD8"
 format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
 
 [golang]
 symbol = " "
 style = "bg:#86BBD8"
 format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
 
 [gradle]
 style = "bg:#86BBD8"
 format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
 
 [haskell]
 symbol = " "
 style = "bg:#86BBD8"
 format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
 
 [nodejs]
 symbol = ""
 style = "bg:#86BBD8"
 format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
 
 [rust]
 symbol = ""
-style = "bg:#86BBD8"
+style = "bg:#551100"
 format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
 
 [fill]
 symbol = ' '
