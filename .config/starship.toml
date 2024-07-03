@@ -58,6 +58,10 @@ style = "bold bg:dark_bg fg:dark_fg"
 format = '[](bg:none fg:dark_bg)[$symbol]($style)'
 disabled = false
 
+[os.symbols]
+Arch = ' '
+# Arch = '🐧'
+
 [sudo]
 # disabled = false
 
