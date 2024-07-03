@@ -23,14 +23,12 @@ $nim\
 $rust\
 $scala\
 $docker_context\
-[ ](bg:none fg:prev_bg)
-[❯](fg:red)[❯](fg:orange)[❯](fg:green) 
-"""
-
-right_format = """
+[](bg:none fg:prev_bg)\
+$fill\
 $status\
 $cmd_duration\
 $jobs
+[❯](fg:red)[❯](fg:orange)[❯](fg:green) 
 """
 
 add_newline = false
@@ -188,7 +186,7 @@ pipestatus = true
 disabled = false
 success_symbol = '[✔]($style fg:success)'
 style = 'bg:dark_bg fg:alert'
-format = '[](fg:dark_bg)[$symbol$common_meaning$signal_name ]($style)'
+format = '[](fg:dark_bg)[ $symbol$common_meaning$signal_name ]($style)'
 
 [cmd_duration]
 min_time = 0
@@ -199,4 +197,4 @@ show_milliseconds = true
 [jobs]
 number_threshold = 1
 style = 'bold bg:light_bg fg:light_fg'
-format = '[]($style bg:prev_bg fg:light_bg)[$symbol$number ]($style)'
+format = '[]($style bg:prev_bg fg:light_bg)[ $symbol$number ]($style)'
