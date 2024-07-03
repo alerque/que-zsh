@@ -28,8 +28,8 @@ $docker_context\
 """
 
 right_format = """
-$status
-$cmd_duration
+$status\
+$cmd_duration\
 $jobs
 """
 
@@ -183,8 +183,6 @@ disabled = true
 [fill]
 symbol = ' '
 
-# prev_bg does not appear to work in right_format
-# https://github.com/starship/starship/issues/6062
 [status]
 pipestatus = true
 disabled = false
@@ -195,10 +193,10 @@ format = '[](fg:dark_bg)[$symbol$common_meaning$signal_name ]($style)'
 [cmd_duration]
 min_time = 0
 style = "bg:medium_bg fg:medium_fg"
-format = '[]($style bg:dark_bg fg:medium_bg)[ $duration ]($style)'
+format = '[]($style bg:prev_bg fg:medium_bg)[ $duration ]($style)'
 show_milliseconds = true
 
 [jobs]
 number_threshold = 1
 style = 'bold bg:light_bg fg:light_fg'
-format = '[]($style bg:medium_bg fg:light_bg)[$symbol$number ]($style)'
+format = '[]($style bg:prev_bg fg:light_bg)[$symbol$number ]($style)'
