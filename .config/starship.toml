@@ -125,7 +125,7 @@ diverged = '⇕⇡${ahead_count}[⇣${behind_count}]($style fg:alert)'
 behind = '⇣${count}'
 stashed = ' '
 modified = ' '
-staged = '[++\($count\)](fg:success)'
+staged = '[++$count](bg:prev_bg fg:success)'
 renamed = '襁 '
 deleted = ' '
 
