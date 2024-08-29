@@ -1,4 +1,5 @@
 *
+!/.config/starship.toml
 !/.config/git-extras-completion.zsh
 !/.config/ripgreprc
 !/.gitignore.d/que-zsh

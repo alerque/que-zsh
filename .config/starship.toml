@@ -1,0 +1,204 @@
+# format = '$all'
+format = """
+$os\
+$sudo\
+$username\
+$hostname\
+$directory\
+$vcsh\
+$git_state\
+$git_branch\
+$git_commit\
+$git_status\
+$c\
+$elixir\
+$elm\
+$golang\
+$gradle\
+$haskell\
+$java\
+$julia\
+$nodejs\
+$nim\
+$rust\
+$scala\
+$docker_context\
+[](bg:none fg:prev_bg)\
+$fill\
+$status\
+$cmd_duration\
+$jobs
+[❯](fg:red)[❯](fg:orange)[❯](fg:green) 
+"""
+
+add_newline = false
+continuation_prompt = '[▶](fg:red)[▶](fg:orange)[▶](fg:green) '
+palette = 'que'
+
+[palettes.que]
+alert = 'red'
+success = 'green'
+dark_bg = '#222222'
+dark_fg = '#FFFFFF'
+medium_bg =  '#666666'
+medium_fg =  '#000000'
+light_bg =  '#CCCCCC'
+light_fg =  '#000000'
+dir_bg = '#2222AA'
+dir_fg = '#FFFFFF'
+git_bg = '#5500CC'
+git_fg = '#FFFFFF'
+git_state_bg = '#CC66FF'
+git_state_fg = '#440000'
+vcsh_bg = '#DD5500'
+vcsh_fg = '#000000'
+
+[os]
+style = "bold bg:dark_bg fg:dark_fg"
+format = '[](bg:none fg:dark_bg)[$symbol]($style)'
+disabled = false
+
+[os.symbols]
+Arch = ' '
+# Arch = '🐧'
+
+[sudo]
+# disabled = false
+
+[username]
+show_always = true
+style_user = "bg:prev_bg fg:prev_fg"
+style_root = "bg:prev_bg fg:alert"
+format = '[$user ]($style)'
+
+[hostname]
+ssh_only = false
+style = "bg:medium_bg fg:medium_fg"
+format = "[]($style fg:prev_bg)[ $ssh_symbol$hostname ]($style)"
+
+[directory]
+style = "bg:dir_bg fg:dir_fg"
+format = "[]($style fg:prev_bg)[ $path ]($style)"
+truncation_length = 4
+truncation_symbol = "…/"
+
+# Here is how you can shorten some long paths by text replacement
+# similar to mapped_locations in Oh My Posh:
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+# Keep in mind that the order matters. For example:
+# "Important Documents" = " 󰈙 "
+# will not be replaced, because "Documents" was already substituted before.
+# So either put "Important Documents" before "Documents" or use the substituted version:
+# "Important 󰈙 " = " 󰈙 "
+
+[vcsh]
+style = 'bg:vcsh_bg fg:vcsh_fg'
+format = '[]($style fg:prev_bg)[ $repo ]($style)'
+
+[git_state]
+style = "bg:git_state_bg fg:git_state_fg"
+format = '[]($style fg:prev_bg)[ $state( $progress_current/$progress_total) ]($style)'
+
+[git_branch]
+symbol = ""
+style = "bg:git_bg fg:git_fg"
+format = '[]($style fg:prev_bg)[ $symbol $branch ]($style)'
+
+[git_commit]
+style = "bg:git_bg fg:git_fg"
+tag_symbol = ' '
+format = '[$hash$tag ]($style)'
+tag_disabled = false
+
+[git_status]
+style = "bg:git_bg fg:git_fg"
+format = '[$all_status$ahead_behind ]($style)'
+conflicted = '🏳'
+up_to_date = ''
+untracked = ' '
+ahead = '⇡${count}'
+diverged = '⇕⇡${ahead_count}[⇣${behind_count}]($style fg:alert)'
+behind = '⇣${count}'
+stashed = ' '
+modified = ' '
+staged = '[++$count](bg:prev_bg fg:success)'
+renamed = '襁 '
+deleted = ' '
+
+[c]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
+
+[docker_context]
+symbol = " "
+style = "bg:#06969A"
+format = '[]($style fg:prev_bg)[ $symbol $context ]($style) $path'
+disabled = true
+
+[elixir]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
+
+[elm]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
+
+[golang]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
+
+[gradle]
+style = "bg:#86BBD8"
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
+
+[haskell]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
+
+[nodejs]
+symbol = ""
+style = "bg:#86BBD8"
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
+
+[rust]
+symbol = ""
+style = "bg:#551100"
+format = '[]($style fg:prev_bg)[ $symbol ($version) ]($style)'
+disabled = true
+
+[fill]
+symbol = ' '
+
+[status]
+pipestatus = true
+disabled = false
+success_symbol = '[✔]($style fg:success)'
+style = 'bg:dark_bg fg:alert'
+format = '[](fg:dark_bg)[ $symbol$common_meaning$signal_name ]($style)'
+
+[cmd_duration]
+min_time = 0
+style = "bg:medium_bg fg:medium_fg"
+format = '[]($style bg:prev_bg fg:medium_bg)[ $duration ]($style)'
+show_milliseconds = true
+
+[jobs]
+number_threshold = 1
+style = 'bold bg:light_bg fg:light_fg'
+format = '[]($style bg:prev_bg fg:light_bg)[ $symbol$number ]($style)'
