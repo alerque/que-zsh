@@ -155,6 +155,10 @@ docker-clean() {
   docker volume ls -qf "dangling=true" | xargs -r docker volume rm
 }
 
+fetch_pkg_keys() {
+	bash -ec 'source PKGBUILD; for k in ${validpgpkeys[@]}; do ssh build.archlinux.org gpg --recv-keys $k; gpg --recv-keys $k; done'
+}
+
 # View the memory usage status of profile-sync-daemon and anything-sync-daemon
 sds () {
 	{ asd preview ; psd preview } | grep -E '(manage|size|psname):'
