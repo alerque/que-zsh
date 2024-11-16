@@ -159,6 +159,13 @@ fetch_pkg_keys() {
 	bash -ec 'source PKGBUILD; for k in ${validpgpkeys[@]}; do ssh build.archlinux.org gpg --recv-keys $k; gpg --recv-keys $k; done'
 }
 
+fetch_sha256 () {
+	curl -sSL "$1" |
+		sha256sum |
+		cut -d' ' -f1 |
+		tee wl-copy
+}
+
 # View the memory usage status of profile-sync-daemon and anything-sync-daemon
 sds () {
 	{ asd preview ; psd preview } | grep -E '(manage|size|psname):'
