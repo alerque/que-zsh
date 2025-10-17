@@ -179,6 +179,28 @@ review-libdeps () {
 	# 	xargs -n1 paru -F
 }
 
+needs-spdx () {
+	git ls-files \
+			':!*.md' \
+			':!:*.am' \
+			':!:*.in' \
+			':!:*.json' \
+			':!:*.lock' \
+			':!:*.m4' \
+			':!:*.rockspec' \
+			':!:*.svg' \
+			':!:*.toml' \
+			':!:*.yml' \
+			':!:.*' \
+			':!:./bootstrap.sh' \
+			':!:Justfile' \
+			':!:build-aux/*' \
+			':!:configure.ac' \
+			':!:rust-toolchain' \
+		|
+		xargs rg SPDX --files-without-match
+}
+
 # View the memory usage status of profile-sync-daemon and anything-sync-daemon
 sds () {
 	{ asd preview ; psd preview } | grep -E '(manage|size|psname):'
