@@ -166,6 +166,19 @@ fetch_sha256 () {
 		tee wl-copy
 }
 
+review-libdeps () {
+	find-libdeps $1 |
+		cut -d= -f1 |
+		xargs -i{} sh -c 'grep -q {} PKGBUILD || echo {}' |
+		sort | while read lib; do
+			echo "$lib ($(paru -Fq $lib | cut -d/ -f2 | xargs))"
+		done
+	# cut -d= -f1 |
+	# 	xargs -i{} sh -c 'grep -q {} PKGBUILD || echo /usr/lib/{}' |
+	# 	sort |
+	# 	xargs -n1 paru -F
+}
+
 # View the memory usage status of profile-sync-daemon and anything-sync-daemon
 sds () {
 	{ asd preview ; psd preview } | grep -E '(manage|size|psname):'
